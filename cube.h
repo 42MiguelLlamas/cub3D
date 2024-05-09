@@ -6,7 +6,7 @@
 # include <stdio.h>
 # include <string.h>
 # include "gnl/get_next_line.h"
-//# include "libft/libft.h"
+# include "libft/libft.h"
 //# include "ft_printf/ft_printf.h"
 # include <math.h>
 //# include <mlx.h>
@@ -26,10 +26,8 @@ typedef struct s_data{
 	int			playery;
 	t_orient	orientation;
 	int			in_map;
-
-	
-
-
+	int			rows;
+	int			cols;
 }				t_data;
 
 void	ft_free(char **map);

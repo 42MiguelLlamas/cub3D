@@ -11,12 +11,17 @@
 # **************************************************************************** #
 
 NAME = cub3D
-SRCS = main.c
+SRCS =	main.c						\
+		aux.c						\
+		gnl/get_next_line.c			\
+		gnl/get_next_line_utils.c	\
+		parse/utils.c				\
+		parse/check_map.c			\
+		
 OBJS = $(SRCS:.c=.o)
 CFLAGS = -Wall -Wextra -Werror 
 CC = cc
 LIBFT = libft/libft.a
-PRINTF = ft_printf/libftprintf.a
 
 .PHONY: all clean fclean re
 
@@ -28,18 +33,15 @@ all: $(NAME)
 $(LIBFT):
 	make -C libft/
 
-$(PRINTF):
-	make -C ft_printf/
-
 clean:
 	rm -f $(OBJS)
 	make -C libft/ fclean
-	make -C ft_printf/ fclean
 
 fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
 
-$(NAME): $(OBJS) $(LIBFT) $(PRINTF)
-	$(CC) $(CFLAGS) -Imlx -lmlx -framework OpenGL -framework AppKit -o $(NAME) $(OBJS) $(LIBFT) $(PRINTF)
+$(NAME): $(OBJS) $(LIBFT) 
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT)
+#-Imlx -lmlx -framework OpenGL -framework AppKit 

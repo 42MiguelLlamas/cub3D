@@ -1,3 +1,5 @@
+#include "cube.h"
+
 void	ft_exit(void)
 {
 	write (1, "Error\n", 6);

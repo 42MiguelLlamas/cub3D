@@ -22,9 +22,7 @@ void	*ft_callocc(size_t count, size_t size)
 char	*ft_strchrr(char *ptr, int c)
 {
 	char	a;
-	int		num;
 
-	num = 0;
 	a = (char)c;
 	while (*ptr != a && *ptr)
 		ptr++;
