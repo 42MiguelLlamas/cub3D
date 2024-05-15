@@ -138,22 +138,43 @@ void	check_inmap(t_data *game)
 		game->mapcheck->in_map = 1;
 }
 
+void	check_mapline(t_data * game, char *line, int count)
+{
+	if (game->mapcheck->in_map == 1 && line[0] == '\n')
+		return ;
+	if (game->mapcheck->in_map == 1 && line[0] != '\n')
+	{
+		game->mapcheck->start_row = count;
+		game->mapcheck->in_map = 2;
+	}
+}
+
 void	check_textures(t_data *game)
 {
 	char	*line;
 	int		fd;
+	int		count;
 
 	fd = open(game->mapname, O_RDONLY);
 	if (fd < 0)
 		ft_exit();
+	count = 1;
 	line = get_next_line(fd);
 	while (line)
 	{
 		check_line(game, line);
 		free(line);
+		line = get_next_line(fd);
+		count++;
 		if (game->mapcheck->in_map == 1)
 			break ;
+	}
+	while (line)
+	{
+		check_mapline(game, line, count);
+		free(line);
 		line = get_next_line(fd);
+		count++;
 	}
 	close(fd);
 }

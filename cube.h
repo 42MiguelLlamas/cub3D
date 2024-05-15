@@ -40,13 +40,14 @@ typedef struct s_color{
 }				t_color;
 
 typedef struct s_mapcheck{
-	int	no;
-	int	so;
-	int we;
-	int	ea;
-	int	f;
-	int	c;
-	int in_map;
+	int			no;
+	int			so;
+	int 		we;
+	int			ea;
+	int			f;
+	int			c;
+	int 		in_map;
+	int			start_row;
 }				t_mapcheck;
 
 typedef struct s_data{
