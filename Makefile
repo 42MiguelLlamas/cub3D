@@ -17,6 +17,7 @@ SRCS =	main.c						\
 		gnl/get_next_line_utils.c	\
 		parse/utils.c				\
 		parse/check_map.c			\
+		parse/init_data.c			\
 		
 OBJS = $(SRCS:.c=.o)
 CFLAGS = -Wall -Wextra -Werror 

@@ -21,7 +21,9 @@ int	main(int argc, char **argv)
 		ft_exit();
 	if (ft_strncmp(".cub", argv[1] + ft_strlen(argv[1]) - 4, 4) != 0)
 		ft_exit();
+	init_data(&game);
 	game.mapname = argv[1];
+	printf("Data iniciado");
 	check_map(&game);
 	print_map(game.map);
 }
