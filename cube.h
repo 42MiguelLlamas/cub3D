@@ -34,9 +34,9 @@ typedef struct s_texture{
 
 typedef struct s_color{
 	t_ident	id;
-	int		R;
-	int		G;
-	int		B;
+	int		r;
+	int		g;
+	int		b;
 }				t_color;
 
 typedef struct s_mapcheck{

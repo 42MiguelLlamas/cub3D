@@ -9,9 +9,9 @@ void	init_texture(t_texture *texture, t_ident ident)
 void	init_color(t_color *color, t_ident ident)
 {
     color->id = ident;
-    color->R = 0;
-    color->G = 0;
-    color->B = 0;
+    color->r = 0;
+    color->g = 0;
+    color->b = 0;
 }
 
 void	init_mapcheck(t_mapcheck *mc)
