@@ -1,5 +1,17 @@
 #include "cube.h"
 
+void	print_map(char **map)
+{
+	int	i;
+
+	i = 0;
+	while (map[i] != NULL)
+	{
+		printf("%s", map[i]);
+		i++;
+	}
+	printf("\n");
+}
 
 int	main(int argc, char **argv)
 {
@@ -11,4 +23,5 @@ int	main(int argc, char **argv)
 		ft_exit();
 	game.mapname = argv[1];
 	check_map(&game);
+	print_map(game.map);
 }

@@ -18,14 +18,36 @@ typedef enum e_orient{
 	W
 }			t_orient;
 
+typedef enum e_ident{
+	NO,
+	SO,
+	WE,
+	EA,
+	F,
+	C
+}			t_ident;
+
+typedef struct s_texture{
+	t_ident	id;
+	char	*path;
+}				t_texture;
+
+typedef struct s_color{
+	t_ident	id;
+	int		R;
+	int		G;
+	int		B;
+}				t_color;
+
 typedef struct s_data{
 	char		*mapname;
-	int			playercount;
 	char		**map;
-	int			playerx;
-	int			playery;
-	t_orient	orientation;
-	int			in_map;
+	t_texture	north;
+	t_texture	south;
+	t_texture	west;
+	t_texture	east;
+	t_color		floor;
+	t_color		ceiling;
 	int			rows;
 	int			cols;
 }				t_data;
