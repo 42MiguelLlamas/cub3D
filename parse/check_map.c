@@ -33,26 +33,26 @@ void	fill_texture(char *path, t_ident ident, t_data	*game)
 {
 	if (ident == NO)
 	{
-		game->mapcheck->no++;
-		game->north->path = ft_strdup(path);
+		game->mapcheck.no++;
+		game->north.path = ft_strdup(path);
 	}
 	else if (ident == SO)
 	{
-		game->mapcheck->so++;
-		game->south->path = ft_strdup(path);
+		game->mapcheck.so++;
+		game->south.path = ft_strdup(path);
 	}
 	else if (ident == WE)
 	{
-		game->mapcheck->we++;
-		game->west->path = ft_strdup(path);
+		game->mapcheck.we++;
+		game->west.path = ft_strdup(path);
 	}
 	else if (ident == EA)
 	{
-		game->mapcheck->ea++;
-		game->east->path = ft_strdup(path);
+		game->mapcheck.ea++;
+		game->east.path = ft_strdup(path);
 	}
-	if (game->mapcheck->no > 1 || game->mapcheck->so > 1 || 
-		game->mapcheck->we > 1 || game->mapcheck->ea > 1)
+	if (game->mapcheck.no > 1 || game->mapcheck.so > 1 || 
+		game->mapcheck.we > 1 || game->mapcheck.ea > 1)
 		ft_exit(); //Aqui habria que hacer free si ya hay algo guardado.
 }
 
@@ -84,15 +84,15 @@ int	check_color(t_data *game, t_ident ident, char	*rgb)
 		fill_color(&game->ceiling, r, g, b);
 }
 
-void	fill_color(t_game *game, t_ident ident, t_color	*color, char *rgb)
+void	fill_color(t_data *game, t_ident ident, t_color	*color, char *rgb)
 {
 	char **split;
 
 	if (ident == F)
-		game->mapcheck->f++;
+		game->mapcheck.f++;
 	else if (ident == C)
-		game->mapcheck->c++;
-	if (game->mapcheck->c > 1 || game->mapcheck->f > 1)
+		game->mapcheck.c++;
+	if (game->mapcheck.c > 1 || game->mapcheck.f > 1)
 		ft_exit(); //Aqui habria que hacer free si ya hay algo guardado.
 	split = ft_split(rgb, 44);
 	color->r = ft_atoi(split[0]);
@@ -132,20 +132,20 @@ void	check_line(t_data *game, char *line)
 
 void	check_inmap(t_data *game)
 {
-	if (game->mapcheck->no > 1 || game->mapcheck->so > 1 || 
-		game->mapcheck->we > 1 || game->mapcheck->ea > 1 ||
-		game->mapcheck->f > 1 || game->mapcheck->c > 1)
-		game->mapcheck->in_map = 1;
+	if (game->mapcheck.no > 1 || game->mapcheck.so > 1 || 
+		game->mapcheck.we > 1 || game->mapcheck.ea > 1 ||
+		game->mapcheck.f > 1 || game->mapcheck.c > 1)
+		game->mapcheck.in_map = 1;
 }
 
 void	check_mapline(t_data * game, char *line, int count)
 {
-	if (game->mapcheck->in_map == 1 && line[0] == '\n')
+	if (game->mapcheck.in_map == 1 && line[0] == '\n')
 		return ;
-	if (game->mapcheck->in_map == 1 && line[0] != '\n')
+	if (game->mapcheck.in_map == 1 && line[0] != '\n')
 	{
-		game->mapcheck->start_row = count;
-		game->mapcheck->in_map = 2;
+		game->mapcheck.start_row = count;
+		game->mapcheck.in_map = 2;
 	}
 }
 
@@ -166,7 +166,7 @@ void	check_textures(t_data *game)
 		free(line);
 		line = get_next_line(fd);
 		count++;
-		if (game->mapcheck->in_map == 1)
+		if (game->mapcheck.in_map == 1)
 			break ;
 	}
 	while (line)

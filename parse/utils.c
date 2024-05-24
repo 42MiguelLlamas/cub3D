@@ -6,7 +6,7 @@ void	count_rows(t_data *game)
 	int		fd;
 	int		row_aux;
 
-	row_aux = game->mapcheck->start_row;
+	row_aux = game->mapcheck.start_row;
 	fd = open(game->mapname, O_RDONLY);
 	if (fd < 0)
 		ft_exit();
