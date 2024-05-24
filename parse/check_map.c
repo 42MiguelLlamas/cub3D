@@ -56,7 +56,24 @@ void	fill_texture(char *path, t_ident ident, t_data	*game)
 		ft_exit(); //Aqui habria que hacer free si ya hay algo guardado.
 }
 
-int	check_color(t_data *game, t_ident ident, char	*rgb)
+void	fill_color(t_data *game, t_ident ident, t_color	*color, char *rgb)
+{
+	char **split;
+
+	if (ident == F)
+		game->mapcheck.f++;
+	else if (ident == C)
+		game->mapcheck.c++;
+	if (game->mapcheck.c > 1 || game->mapcheck.f > 1)
+		ft_exit(); //Aqui habria que hacer free si ya hay algo guardado.
+	split = ft_split(rgb, 44);
+	color->r = ft_atoi(split[0]);
+	color->g = ft_atoi(split[1]);
+	color->b = ft_atoi(split[2]);
+	ft_free(split);
+}
+
+void	check_color(char	*rgb, t_ident ident, t_data *game)
 {
 	char	**split;
 	int		r;
@@ -79,26 +96,17 @@ int	check_color(t_data *game, t_ident ident, char	*rgb)
 	if ((r < 0 || r > 255) || (g < 0 || g > 255) || (b < 0 || b > 255))
 		ft_exit(); //Aqui habria que hacer free si ya hay algo guardado.
 	if (ident == F)
-		fill_color(&game->floor, r, g, b);
+		fill_color(game, F, &game->floor, rgb);
 	else if (ident == C)
-		fill_color(&game->ceiling, r, g, b);
+		fill_color(game, C, &game->ceiling, rgb);
 }
 
-void	fill_color(t_data *game, t_ident ident, t_color	*color, char *rgb)
+void	check_inmap(t_data *game)
 {
-	char **split;
-
-	if (ident == F)
-		game->mapcheck.f++;
-	else if (ident == C)
-		game->mapcheck.c++;
-	if (game->mapcheck.c > 1 || game->mapcheck.f > 1)
-		ft_exit(); //Aqui habria que hacer free si ya hay algo guardado.
-	split = ft_split(rgb, 44);
-	color->r = ft_atoi(split[0]);
-	color->g = ft_atoi(split[1]);
-	color->b = ft_atoi(split[2]);
-	ft_free(split);
+	if (game->mapcheck.no > 1 || game->mapcheck.so > 1 || 
+		game->mapcheck.we > 1 || game->mapcheck.ea > 1 ||
+		game->mapcheck.f > 1 || game->mapcheck.c > 1)
+		game->mapcheck.in_map = 1;
 }
 
 void	check_line(t_data *game, char *line)
@@ -130,13 +138,7 @@ void	check_line(t_data *game, char *line)
 	ft_free(split);
 }
 
-void	check_inmap(t_data *game)
-{
-	if (game->mapcheck.no > 1 || game->mapcheck.so > 1 || 
-		game->mapcheck.we > 1 || game->mapcheck.ea > 1 ||
-		game->mapcheck.f > 1 || game->mapcheck.c > 1)
-		game->mapcheck.in_map = 1;
-}
+
 
 void	check_mapline(t_data * game, char *line, int count)
 {
