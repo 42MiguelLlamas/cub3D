@@ -20,7 +20,7 @@ SRCS =	main.c						\
 		parse/init_data.c			\
 		
 OBJS = $(SRCS:.c=.o)
-CFLAGS = -Wall -Wextra -Werror 
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address
 CC = cc
 LIBFT = libft/libft.a
 

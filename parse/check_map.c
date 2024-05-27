@@ -1,5 +1,19 @@
 #include "../cube.h"
 
+void print_arr(char **array)
+{
+	printf("Splitted:");
+    if (array == NULL) {
+        printf("The array is NULL.\n");
+        return;
+    }
+
+    for (int i = 0; array[i] != NULL; i++) {
+        printf("%s\n", array[i]);
+    }
+	printf("End\n");
+}
+
 void	fill_map(t_data *game)
 {
 	int		fd;
@@ -81,18 +95,22 @@ void	check_color(char	*rgb, t_ident ident, t_data *game)
 	int		b;
 	int		i;
 
+	printf("Checkeando color.\n");
 	split = ft_split(rgb, 44);
 	if (!split)
 		ft_exit();//Aqui habria que hacer free si ya hay algo guardado.
 	i = 0;
+	print_arr(split);
 	while (split[i] != NULL)
 		i++;
-	if (i != 2)
+	if (i != 3)
 		ft_exit(); //Aqui habria que hacer free si ya hay algo guardado.
+	printf("Numero de args adecuado.\n");
 	r = ft_atoi(split[0]);
 	g = ft_atoi(split[1]);
 	b = ft_atoi(split[2]);
 	ft_free(split);
+	printf("AQUI");
 	if ((r < 0 || r > 255) || (g < 0 || g > 255) || (b < 0 || b > 255))
 		ft_exit(); //Aqui habria que hacer free si ya hay algo guardado.
 	if (ident == F)
@@ -120,6 +138,7 @@ void	check_line(t_data *game, char *line)
 		return ;
 	if (split[2] != NULL && split[2][0] != '\n')
 		ft_exit(); //Aqui habria que hacer free si ya hay algo guardado.
+	printf("NO hay algo extra\n");
 	if (split[0][0] == 78 && split[0][1] == 79 && split[0][2] == 0)
 		fill_texture(split[1], NO, game);
 	else if (split[0][0] == 83 && split[0][1] == 79 && split[0][2] == 0)
@@ -165,6 +184,7 @@ void	check_textures(t_data *game)
 	while (line)
 	{
 		check_line(game, line);
+		printf("Linea inmap %d; nº%d: %s",  game->mapcheck.in_map, count, line);
 		free(line);
 		line = get_next_line(fd);
 		count++;

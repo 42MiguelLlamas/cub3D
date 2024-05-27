@@ -23,7 +23,7 @@ int	main(int argc, char **argv)
 		ft_exit();
 	init_data(&game);
 	game.mapname = argv[1];
-	printf("Data iniciado");
+	printf("Data iniciado\n");
 	check_map(&game);
 	print_map(game.map);
 }
