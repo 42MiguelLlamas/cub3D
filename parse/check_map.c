@@ -7,12 +7,59 @@ void print_arr(char **array)
         printf("The array is NULL.\n");
         return;
     }
-
     for (int i = 0; array[i] != NULL; i++) {
         printf("%s\n", array[i]);
     }
 	printf("End\n");
 }
+
+#include <stdio.h>
+
+void print_texture(const t_texture *tex) {
+    printf("Texture ID: %d, Path: %s\n", tex->id, tex->path ? tex->path : "None");
+}
+
+void print_color(const t_color *col) {
+    printf("Color ID: %d, RGB: (%d, %d, %d)\n", col->id, col->r, col->g, col->b);
+}
+
+
+void print_map(char **map) {
+    if (!map) {
+        printf("Map: None\n");
+        return;
+    }
+    printf("Map:\n");
+    for (int i = 0; map[i] != NULL; i++) {
+        printf("%s\n", map[i]);
+    }
+}
+
+void print_game_data(const t_data *game) {
+    if (!game) {
+        printf("Game data is NULL\n");
+        return;
+    }
+
+    printf("Game Name: %s\n", game->mapname ? game->mapname : "No name provided");
+    print_map(game->map);
+    printf("Textures:\n");
+    printf("North: ");
+    print_texture(&game->north);
+    printf("South: ");
+    print_texture(&game->south);
+    printf("West: ");
+    print_texture(&game->west);
+    printf("East: ");
+    print_texture(&game->east);
+    printf("Colors:\n");
+    printf("Floor: ");
+    print_color(&game->floor);
+    printf("Ceiling: ");
+    print_color(&game->ceiling);
+    printf("Rows: %d, Cols: %d\n", game->rows, game->cols);
+}
+
 
 void	fill_map(t_data *game)
 {
@@ -95,22 +142,18 @@ void	check_color(char	*rgb, t_ident ident, t_data *game)
 	int		b;
 	int		i;
 
-	printf("Checkeando color.\n");
 	split = ft_split(rgb, 44);
 	if (!split)
 		ft_exit();//Aqui habria que hacer free si ya hay algo guardado.
 	i = 0;
-	print_arr(split);
 	while (split[i] != NULL)
 		i++;
 	if (i != 3)
 		ft_exit(); //Aqui habria que hacer free si ya hay algo guardado.
-	printf("Numero de args adecuado.\n");
 	r = ft_atoi(split[0]);
 	g = ft_atoi(split[1]);
 	b = ft_atoi(split[2]);
 	ft_free(split);
-	printf("AQUI");
 	if ((r < 0 || r > 255) || (g < 0 || g > 255) || (b < 0 || b > 255))
 		ft_exit(); //Aqui habria que hacer free si ya hay algo guardado.
 	if (ident == F)
@@ -121,9 +164,9 @@ void	check_color(char	*rgb, t_ident ident, t_data *game)
 
 void	check_inmap(t_data *game)
 {
-	if (game->mapcheck.no > 1 || game->mapcheck.so > 1 || 
-		game->mapcheck.we > 1 || game->mapcheck.ea > 1 ||
-		game->mapcheck.f > 1 || game->mapcheck.c > 1)
+	if (game->mapcheck.no == 1 && game->mapcheck.so == 1 && 
+		game->mapcheck.we == 1 && game->mapcheck.ea == 1 &&
+		game->mapcheck.f == 1 && game->mapcheck.c == 1)
 		game->mapcheck.in_map = 1;
 }
 
@@ -135,10 +178,16 @@ void	check_line(t_data *game, char *line)
 	if (!split)
 		ft_exit(); //Aqui habria que hacer free si ya hay algo guardado.
 	if (split[0][0] == '\n')
+	{
+		check_inmap(game);
+		ft_free(split);
 		return ;
-	if (split[2] != NULL && split[2][0] != '\n')
+	}
+	if (!split[1] || (split[2] != NULL && split[2][0] != '\n'))
+	{
+		ft_free(split);
 		ft_exit(); //Aqui habria que hacer free si ya hay algo guardado.
-	printf("NO hay algo extra\n");
+	}
 	if (split[0][0] == 78 && split[0][1] == 79 && split[0][2] == 0)
 		fill_texture(split[1], NO, game);
 	else if (split[0][0] == 83 && split[0][1] == 79 && split[0][2] == 0)
@@ -165,6 +214,7 @@ void	check_mapline(t_data * game, char *line, int count)
 		return ;
 	if (game->mapcheck.in_map == 1 && line[0] != '\n')
 	{
+		printf("Count: %d\n", count);
 		game->mapcheck.start_row = count;
 		game->mapcheck.in_map = 2;
 	}
@@ -184,20 +234,22 @@ void	check_textures(t_data *game)
 	while (line)
 	{
 		check_line(game, line);
-		printf("Linea inmap %d; nº%d: %s",  game->mapcheck.in_map, count, line);
 		free(line);
 		line = get_next_line(fd);
 		count++;
 		if (game->mapcheck.in_map == 1)
 			break ;
 	}
+	print_game_data(game);
 	while (line)
 	{
 		check_mapline(game, line, count);
+		printf("Linea inmap %d; nº%d: %s",  game->mapcheck.in_map, count, line);
 		free(line);
 		line = get_next_line(fd);
 		count++;
 	}
+	printf("Fin check\n");
 	close(fd);
 }
 
