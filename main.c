@@ -48,6 +48,49 @@ void free_game_data(t_data *game)
     }
 }
 
+void	fill_map(t_data *game)
+{
+	int		fd;
+	char	*line;
+	int		i;
+	int		count;
+	int		line_len;
+
+	fd = open(game->mapname, O_RDONLY);
+	game->map = (char **)malloc(sizeof(char *) * (game->rows + 1));
+	if (!game->map)
+	{
+		close(fd);
+		ft_exit();
+	}
+	line = get_next_line(fd);
+	i = 0;
+	while (line)
+	{
+        if (count >= game->mapcheck.start_row)
+		{
+            game->map[i] = malloc(game->cols + 1);
+            if (!game->map[i])
+			{
+                close(fd);
+                ft_exit();
+            }
+            line_len = (int)ft_strlen(line);
+            if (line[line_len - 1] == '\n')
+                line[line_len - 1] = '\0';
+            strncpy(game->map[i], line, line_len);
+            memset(game->map[i] + line_len, ' ', game->cols - line_len);
+            game->map[i][game->cols] = '\0';
+            i++;
+		}
+        free(line);
+        line = get_next_line(fd);
+        count++;
+    }
+    game->map[i] = NULL;
+    close(fd);
+}
+
 
 int	main(int argc, char **argv)
 {
@@ -59,9 +102,8 @@ int	main(int argc, char **argv)
 		ft_exit();
 	init_data(&game);
 	game.mapname = ft_strdup(argv[1]);
-	printf("Data iniciado\n");
 	check_map(&game);
-	printf("Fin\n");
+	fill_map(&game);
 	free_game_data(&game);
-	//print_amap(game.map);
+
 }

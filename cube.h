@@ -46,8 +46,10 @@ typedef struct s_mapcheck{
 	int			ea;
 	int			f;
 	int			c;
+	int			player_counter;
 	int 		in_map;
 	int			start_row;
+	int			max_len;
 }				t_mapcheck;
 
 typedef struct s_data{

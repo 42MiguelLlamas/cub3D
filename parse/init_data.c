@@ -22,8 +22,10 @@ void	init_mapcheck(t_mapcheck *mc)
 	mc->ea = 0;
 	mc->f = 0;
 	mc->c = 0;
+	mc->player_counter = 0;
 	mc->in_map = 0;
 	mc->start_row = 0;
+	mc->max_len = 0;
 }
 
 void	init_data(t_data *game)

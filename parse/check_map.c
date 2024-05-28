@@ -8,7 +8,7 @@ void print_arr(char **array)
         return;
     }
     for (int i = 0; array[i] != NULL; i++) {
-        printf("%s\n", array[i]);
+        printf("arr %s\n", array[i]);
     }
 	printf("End\n");
 }
@@ -60,35 +60,6 @@ void print_game_data(const t_data *game) {
     printf("Rows: %d, Cols: %d\n", game->rows, game->cols);
 }
 
-
-void	fill_map(t_data *game)
-{
-	int		fd;
-	char	*line;
-	int		i;
-
-	count_rows(game);
-	if (game->rows < 3)
-		ft_exit();
-	fd = open(game->mapname, O_RDONLY);
-	game->map = (char **)malloc(sizeof(char *) * (game->rows + 1));
-	if (!game->map)
-		ft_exit();
-	line = get_next_line(fd);
-	i = 0;
-	while (line)
-	{
-		game->map[i] = line;
-		if (!game->map[i])
-		{
-			ft_free(game->map);
-			ft_exit();
-		}
-		line = get_next_line(fd);
-		i++;
-	}
-	game->map[i] = line;
-}
 
 void	fill_texture(char *path, t_ident ident, t_data	*game)
 {
@@ -170,24 +141,8 @@ void	check_inmap(t_data *game)
 		game->mapcheck.in_map = 1;
 }
 
-void	check_line(t_data *game, char *line)
+void	check_textures(char	**split, t_data *game)
 {
-	char	**split;
-
-	split = ft_split(line, 32);
-	if (!split)
-		ft_exit(); //Aqui habria que hacer free si ya hay algo guardado.
-	if (split[0][0] == '\n')
-	{
-		check_inmap(game);
-		ft_free(split);
-		return ;
-	}
-	if (!split[1] || (split[2] != NULL && split[2][0] != '\n'))
-	{
-		ft_free(split);
-		ft_exit(); //Aqui habria que hacer free si ya hay algo guardado.
-	}
 	if (split[0][0] == 78 && split[0][1] == 79 && split[0][2] == 0)
 		fill_texture(split[1], NO, game);
 	else if (split[0][0] == 83 && split[0][1] == 79 && split[0][2] == 0)
@@ -202,11 +157,64 @@ void	check_line(t_data *game, char *line)
 		check_color(split[1], C, game);
 	else
 		ft_exit(); //Aqui habria que hacer free si ya hay algo guardado.
-	check_inmap(game);
-	ft_free(split);
 }
 
+void	check_line(t_data *game, char *line)
+{
+	char	**split;
 
+	split = ft_split(line, 32);
+	if (!split)
+		ft_exit(); //Aqui habria que hacer free si ya hay algo guardado.
+	if (split[0][0] == '\n')
+	{
+		check_inmap(game);
+		ft_free(split);
+		free(line);
+		return ;
+	}
+	if (!split[1] || (split[2] != NULL && split[2][0] != '\n'))
+	{
+		ft_free(split);
+		free(line);
+		ft_exit(); //Aqui habria que hacer free si ya hay algo guardado.
+	}
+	check_textures(split, game);
+	check_inmap(game);
+	ft_free(split);
+	free(line);
+}
+
+void	check_chars(t_data *game, char *line)
+{
+    int		i;
+    char	c;
+
+	i = 0;
+	c = 0;
+	printf("Checking chars.\n");
+    while (line[i] != '\0')
+	{
+		c = (char)line[i];
+        if (c != '1' && c != '0' && c != ' ' && c != 'N'
+			&& c != 'S' && c != 'E' && c != 'W' && c != '\n')
+		{
+			free(line);
+            ft_exit();
+		}
+
+        if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
+		{
+            if (game->mapcheck.player_counter > 0)
+			{
+				free(line);
+                ft_exit();
+			}
+            game->mapcheck.player_counter++;
+        }
+        i++;
+    }
+}
 
 void	check_mapline(t_data * game, char *line, int count)
 {
@@ -214,13 +222,21 @@ void	check_mapline(t_data * game, char *line, int count)
 		return ;
 	if (game->mapcheck.in_map == 1 && line[0] != '\n')
 	{
-		printf("Count: %d\n", count);
+		check_chars(game, line);
 		game->mapcheck.start_row = count;
 		game->mapcheck.in_map = 2;
 	}
+	if (game->mapcheck.in_map == 2)
+	{
+		if (line[0] == '\n')
+			return;
+		check_chars(game, line);
+		if (game->mapcheck.max_len < (int)ft_strlen(line))
+			game->mapcheck.max_len = ft_strlen(line);
+	}
 }
 
-void	check_textures(t_data *game)
+void	check_map(t_data *game)
 {
 	char	*line;
 	int		fd;
@@ -234,7 +250,6 @@ void	check_textures(t_data *game)
 	while (line)
 	{
 		check_line(game, line);
-		free(line);
 		line = get_next_line(fd);
 		count++;
 		if (game->mapcheck.in_map == 1)
@@ -244,17 +259,11 @@ void	check_textures(t_data *game)
 	while (line)
 	{
 		check_mapline(game, line, count);
-		printf("Linea inmap %d; nº%d: %s",  game->mapcheck.in_map, count, line);
 		free(line);
 		line = get_next_line(fd);
 		count++;
 	}
-	printf("Fin check\n");
+	game->rows = count - game->mapcheck.start_row;
+	game->cols = game->mapcheck.max_len;
 	close(fd);
-}
-
-void	check_map(t_data *game)
-{
-	check_textures(game);
-	//fill_map(game);
 }
