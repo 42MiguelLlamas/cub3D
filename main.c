@@ -1,16 +1,26 @@
 #include "cube.h"
 
-void	print_amap(char **map)
+void print_amap(char **map)
 {
-	int	i;
+    int i, j;
+    char c;
 
-	i = 0;
-	while (map[i] != NULL)
-	{
-		printf("%s", map[i]);
-		i++;
-	}
-	printf("\n");
+    i = 0;
+    while (map[i] != NULL)
+    {
+        j = 0;
+        while ((c = map[i][j]) != '\0')
+        {
+            if (c == ' ')
+                printf("b");
+            else
+                printf("%c", c);
+            j++;
+        }
+        printf("\n");
+        i++;
+    }
+    printf("\n");
 }
 
 void free_texture(t_texture *tex)
@@ -48,13 +58,41 @@ void free_game_data(t_data *game)
     }
 }
 
+void	fill_line(t_data *game, int *i, int fd, char *line)
+{
+	int		line_len;
+	int		j;
+
+	game->map[*i] = malloc(game->cols + 1);
+	if (!game->map[*i])
+	{
+		close(fd);
+		ft_exit();
+	}
+	line_len = (int)ft_strlen(line);
+	printf("Entra aqui. Longitud %d\n", line_len);
+	if (line[line_len - 1] == '\n')
+		line[line_len - 1] = '\0';
+	j = -1;
+	printf("Linea nº%d\n: %s", (*i), line);
+	while (j++ < game->cols)
+	{
+		printf("Char nº%d: %c",j, line[j]);
+		if (j < line_len)
+			game->map[*i][j] = line[j];
+		else
+			game->map[*i][j] = ' ';
+	}
+	game->map[*i][game->cols] = '\0';
+	(*i)++;
+}
+
 void	fill_map(t_data *game)
 {
 	int		fd;
 	char	*line;
 	int		i;
 	int		count;
-	int		line_len;
 
 	fd = open(game->mapname, O_RDONLY);
 	game->map = (char **)malloc(sizeof(char *) * (game->rows + 1));
@@ -63,26 +101,14 @@ void	fill_map(t_data *game)
 		close(fd);
 		ft_exit();
 	}
-	line = get_next_line(fd);
 	i = 0;
+	count = 0;
+	line = get_next_line(fd);
 	while (line)
 	{
-        if (count >= game->mapcheck.start_row)
-		{
-            game->map[i] = malloc(game->cols + 1);
-            if (!game->map[i])
-			{
-                close(fd);
-                ft_exit();
-            }
-            line_len = (int)ft_strlen(line);
-            if (line[line_len - 1] == '\n')
-                line[line_len - 1] = '\0';
-            strncpy(game->map[i], line, line_len);
-            memset(game->map[i] + line_len, ' ', game->cols - line_len);
-            game->map[i][game->cols] = '\0';
-            i++;
-		}
+		printf("Linea nº%d: %s", count, line);
+        if (count >= game->mapcheck.start_row - 1)
+			fill_line(game, &i, fd, line);
         free(line);
         line = get_next_line(fd);
         count++;
@@ -103,7 +129,8 @@ int	main(int argc, char **argv)
 	init_data(&game);
 	game.mapname = ft_strdup(argv[1]);
 	check_map(&game);
+	printf("Chequeado Mapa.\n");
 	fill_map(&game);
+	print_amap(game.map);
 	free_game_data(&game);
-
 }

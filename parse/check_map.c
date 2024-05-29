@@ -13,7 +13,6 @@ void print_arr(char **array)
 	printf("End\n");
 }
 
-#include <stdio.h>
 
 void print_texture(const t_texture *tex) {
     printf("Texture ID: %d, Path: %s\n", tex->id, tex->path ? tex->path : "None");
@@ -57,7 +56,7 @@ void print_game_data(const t_data *game) {
     print_color(&game->floor);
     printf("Ceiling: ");
     print_color(&game->ceiling);
-    printf("Rows: %d, Cols: %d\n", game->rows, game->cols);
+    printf("Rows: %d, Cols: %d\n, StartRow: %d\n", game->rows, game->cols, game->mapcheck.start_row);
 }
 
 
@@ -192,7 +191,6 @@ void	check_chars(t_data *game, char *line)
 
 	i = 0;
 	c = 0;
-	printf("Checking chars.\n");
     while (line[i] != '\0')
 	{
 		c = (char)line[i];
@@ -202,7 +200,6 @@ void	check_chars(t_data *game, char *line)
 			free(line);
             ft_exit();
 		}
-
         if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 		{
             if (game->mapcheck.player_counter > 0)
@@ -212,7 +209,7 @@ void	check_chars(t_data *game, char *line)
 			}
             game->mapcheck.player_counter++;
         }
-        i++;
+		i++;
     }
 }
 
@@ -255,7 +252,6 @@ void	check_map(t_data *game)
 		if (game->mapcheck.in_map == 1)
 			break ;
 	}
-	print_game_data(game);
 	while (line)
 	{
 		check_mapline(game, line, count);
@@ -265,5 +261,6 @@ void	check_map(t_data *game)
 	}
 	game->rows = count - game->mapcheck.start_row;
 	game->cols = game->mapcheck.max_len;
+	print_game_data(game);
 	close(fd);
 }
