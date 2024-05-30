@@ -70,15 +70,12 @@ void	fill_line(t_data *game, int *i, int fd, char *line)
 		ft_exit();
 	}
 	line_len = (int)ft_strlen(line);
-	printf("Entra aqui. Longitud %d\n", line_len);
 	if (line[line_len - 1] == '\n')
 		line[line_len - 1] = '\0';
 	j = -1;
-	printf("Linea nº%d\n: %s", (*i), line);
 	while (j++ < game->cols)
 	{
-		printf("Char nº%d: %c",j, line[j]);
-		if (j < line_len)
+		if (j < line_len && line[j] != '\0')
 			game->map[*i][j] = line[j];
 		else
 			game->map[*i][j] = ' ';
@@ -106,7 +103,6 @@ void	fill_map(t_data *game)
 	line = get_next_line(fd);
 	while (line)
 	{
-		printf("Linea nº%d: %s", count, line);
         if (count >= game->mapcheck.start_row - 1)
 			fill_line(game, &i, fd, line);
         free(line);
