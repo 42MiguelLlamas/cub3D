@@ -49,7 +49,6 @@ typedef struct s_mapcheck{
 	int			player_counter;
 	int 		in_map;
 	int			start_row;
-	int			max_len;
 }				t_mapcheck;
 
 typedef struct s_data{
@@ -66,15 +65,23 @@ typedef struct s_data{
 	int			cols;
 }				t_data;
 
-void	ft_free(char **map);
-void	ft_exit(void);
 
 void	init_color(t_color *color, t_ident ident);
 void	init_texture(t_texture *texture, t_ident ident);
 void	init_mapcheck(t_mapcheck *mc);
 void	init_data(t_data *game);
 
-void	check_map(t_data *game);
 void	fill_map(t_data *game);
-void	count_rows(t_data *game);
+
+void	check_map(t_data *game);
+void	fill_texture(char *path, t_ident ident, t_data	*game);
+void	fill_color(t_data *game, t_ident ident, t_color	*color, char *rgb);
+void	check_color(char *rgb, t_ident ident, t_data *game);
+void	check_inmap(t_data *game);
+
+void	free_exit(char **sol, int len, int fd);
+void	free_game_data(t_data *game);
+void	ft_exit(int yes, t_data *game);
+void	ft_free(char **map);
+
 #endif

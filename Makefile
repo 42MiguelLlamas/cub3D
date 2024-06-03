@@ -13,10 +13,12 @@
 NAME = cub3D
 SRCS =	main.c						\
 		aux.c						\
+		memory_handle.c				\
 		gnl/get_next_line.c			\
 		gnl/get_next_line_utils.c	\
-		parse/utils.c				\
 		parse/check_map.c			\
+		parse/fill_map.c			\
+		parse/check_map_utils.c		\
 		parse/init_data.c			\
 		
 OBJS = $(SRCS:.c=.o)
