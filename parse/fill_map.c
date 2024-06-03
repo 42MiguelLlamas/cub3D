@@ -32,7 +32,7 @@ void	check_valid(t_data *game)
 		{
 			if (i == 0 || j == 0 || j == game->cols - 1 || i == game->rows - 1)
 			{
-				if (game->map[i][j] == 0)
+				if (game->map[i][j] == '0')
 					ft_exit(1, game);
 			}
 			check_spaces(game, &i, &j);
