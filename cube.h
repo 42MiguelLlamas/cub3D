@@ -20,7 +20,7 @@
 # include "gnl/get_next_line.h"
 # include "libft/libft.h"
 # include <math.h>
-//# include <mlx.h>
+# include "minilibx/mlx.h"
 
 # define SCREEN_WIDTH 640.00000
 # define SCREEN_HEIGHT 448

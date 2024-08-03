@@ -25,6 +25,8 @@ OBJS = $(SRCS:.c=.o)
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address
 CC = cc
 LIBFT = libft/libft.a
+MLX = minilibx/libmlx.a
+MLX_FLAGS = -Lminilibx -lmlx -lX11 -lXext -lm
 
 .PHONY: all clean fclean re
 
@@ -36,15 +38,18 @@ all: $(NAME)
 $(LIBFT):
 	make -C libft/
 
+$(MLX):
+	make -C minilibx/
+
 clean:
 	rm -f $(OBJS)
 	make -C libft/ fclean
+	make -C minilibx/ clean
 
 fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
 
-$(NAME): $(OBJS) $(LIBFT) 
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT)
-#-Imlx -lmlx -framework OpenGL -framework AppKit 
+$(NAME): $(OBJS) $(LIBFT) $(MLX)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(MLX_FLAGS)
