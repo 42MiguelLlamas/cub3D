@@ -12,7 +12,6 @@
 
 NAME = cub3D
 SRCS =	main.c						\
-		aux.c						\
 		memory_handle.c				\
 		gnl/get_next_line.c			\
 		gnl/get_next_line_utils.c	\
@@ -20,6 +19,7 @@ SRCS =	main.c						\
 		parse/fill_map.c			\
 		parse/check_map_utils.c		\
 		parse/init_data.c			\
+		carlos.c
 		
 OBJS = $(SRCS:.c=.o)
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address

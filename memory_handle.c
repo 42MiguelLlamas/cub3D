@@ -1,29 +1,41 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_data.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: carlos-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/01 17:55:53 by carlos-m          #+#    #+#             */
+/*   Updated: 2024/08/01 17:55:57 by carlos-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cube.h"
 
 void	free_texture(t_texture *tex)
 {
-    if (tex->path)
+	if (tex->path)
 	{
-        free(tex->path);
-        tex->path = NULL;
-    }
+		free(tex->path);
+		tex->path = NULL;
+	}
 }
 
 void	free_game_data(t_data *game)
 {
-    if (!game)
-		return;
-    free_texture(&game->north);
-    free_texture(&game->south);
-    free_texture(&game->west);
-    free_texture(&game->east);
-
-    ft_free(game->map);
-    if (game->mapname)
+	if (!game)
+		return ;
+	free_texture(&game->north);
+	free_texture(&game->south);
+	free_texture(&game->west);
+	free_texture(&game->east);
+	free(game->player);
+	ft_free(game->map);
+	if (game->mapname)
 	{
-        free(game->mapname);
-        game->mapname = NULL;
-    }
+		free(game->mapname);
+		game->mapname = NULL;
+	}
 }
 
 void	free_exit(char **sol, int len, int fd)

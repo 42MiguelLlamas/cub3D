@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_data.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: carlos-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/01 17:55:53 by carlos-m          #+#    #+#             */
+/*   Updated: 2024/08/01 17:55:57 by carlos-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUBE_H
 # define CUBE_H
 
@@ -7,18 +19,23 @@
 # include <string.h>
 # include "gnl/get_next_line.h"
 # include "libft/libft.h"
-//# include "ft_printf/ft_printf.h"
 # include <math.h>
 //# include <mlx.h>
 
-typedef enum e_orient{
+# define SCREEN_WIDTH 640.00000
+# define SCREEN_HEIGHT 448
+# define M_PI		3.14159265358979323846
+
+typedef enum e_orient
+{
 	N,
 	S,
 	E,
 	W
 }			t_orient;
 
-typedef enum e_ident{
+typedef enum e_ident
+{
 	NO,
 	SO,
 	WE,
@@ -27,31 +44,44 @@ typedef enum e_ident{
 	C
 }			t_ident;
 
-typedef struct s_texture{
+typedef struct s_texture
+{
 	t_ident	id;
 	char	*path;
 }				t_texture;
 
-typedef struct s_color{
+typedef struct s_color
+{
 	t_ident	id;
 	int		r;
 	int		g;
 	int		b;
 }				t_color;
 
-typedef struct s_mapcheck{
+typedef struct s_mapcheck
+{
 	int			no;
 	int			so;
-	int 		we;
+	int			we;
 	int			ea;
 	int			f;
 	int			c;
 	int			player_counter;
-	int 		in_map;
+	int			in_map;
 	int			start_row;
 }				t_mapcheck;
 
-typedef struct s_data{
+typedef struct s_player
+{
+	int		pos_x;
+	int		pos_y;
+	int		pixel_x;
+	int		pixel_y;
+	float	angle_v;
+}				t_player;
+
+typedef struct s_data
+{
 	char		*mapname;
 	char		**map;
 	t_texture	north;
@@ -61,10 +91,10 @@ typedef struct s_data{
 	t_color		floor;
 	t_color		ceiling;
 	t_mapcheck	mapcheck;
+	t_player	*player;
 	int			rows;
 	int			cols;
 }				t_data;
-
 
 void	init_color(t_color *color, t_ident ident);
 void	init_texture(t_texture *texture, t_ident ident);
@@ -83,5 +113,7 @@ void	free_exit(char **sol, int len, int fd);
 void	free_game_data(t_data *game);
 void	ft_exit(int yes, t_data *game);
 void	ft_free(char **map);
+
+void	gameplay(t_data *data);
 
 #endif

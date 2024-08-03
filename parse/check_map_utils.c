@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_data.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: carlos-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/01 17:55:53 by carlos-m          #+#    #+#             */
+/*   Updated: 2024/08/01 17:55:57 by carlos-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cube.h"
 
 void	fill_texture(char *path, t_ident ident, t_data	*game)
@@ -22,21 +34,21 @@ void	fill_texture(char *path, t_ident ident, t_data	*game)
 		game->mapcheck.ea++;
 		game->east.path = ft_strdup(path);
 	}
-	if (game->mapcheck.no > 1 || game->mapcheck.so > 1 || 
-		game->mapcheck.we > 1 || game->mapcheck.ea > 1)
-		ft_exit(1, game); //Aqui habria que hacer free si ya hay algo guardado.
+	if (game->mapcheck.no > 1 || game->mapcheck.so > 1 || \
+	game->mapcheck.we > 1 || game->mapcheck.ea > 1)
+		ft_exit(1, game);
 }
 
 void	fill_color(t_data *game, t_ident ident, t_color	*color, char *rgb)
 {
-	char **split;
+	char	**split;
 
 	if (ident == F)
 		game->mapcheck.f++;
 	else if (ident == C)
 		game->mapcheck.c++;
 	if (game->mapcheck.c > 1 || game->mapcheck.f > 1)
-		ft_exit(1, game); //Aqui habria que hacer free si ya hay algo guardado.
+		ft_exit(1, game);
 	split = ft_split(rgb, 44);
 	color->r = ft_atoi(split[0]);
 	color->g = ft_atoi(split[1]);
@@ -74,8 +86,8 @@ void	check_color(char	*rgb, t_ident ident, t_data *game)
 
 void	check_inmap(t_data *game)
 {
-	if (game->mapcheck.no == 1 && game->mapcheck.so == 1 && 
-		game->mapcheck.we == 1 && game->mapcheck.ea == 1 &&
+	if (game->mapcheck.no == 1 && game->mapcheck.so == 1 && \
+		game->mapcheck.we == 1 && game->mapcheck.ea == 1 && \
 		game->mapcheck.f == 1 && game->mapcheck.c == 1)
 		game->mapcheck.in_map = 1;
 }

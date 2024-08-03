@@ -9,6 +9,7 @@
 /*   Updated: 2023/09/27 16:59:42 by mllamas-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 static int	ft_count(const char *s, char c)

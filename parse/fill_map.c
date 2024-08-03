@@ -1,22 +1,36 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_data.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: carlos-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/01 17:55:53 by carlos-m          #+#    #+#             */
+/*   Updated: 2024/08/01 17:55:57 by carlos-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cube.h"
 
-void check_spaces(t_data *game, int *i, int *j)
+void	check_spaces(t_data *game, int *i, int *j)
 {
-    int	row;
-    int	col;
+	int	row;
+	int	col;
 
 	row = *i;
 	col = *j;
-    if (game->map[row][col] == ' ')
+	if (game->map[row][col] == ' ')
 	{
-        if ((row == 0 || game->map[row - 1][col] == ' ' || game->map[row - 1][col] == '1') &&
-            (row == game->rows - 1 || game->map[row + 1][col] == ' ' || game->map[row + 1][col] == '1') &&
-            (col == 0 || game->map[row][col - 1] == ' ' || game->map[row][col - 1] == '1') &&
-            (col == game->cols - 1 || game->map[row][col + 1] == ' ' || game->map[row][col + 1] == '1'))
-            return;
+		if ((row == 0 || game->map[row - 1][col] == ' ' || \
+		game->map[row - 1][col] == '1') && (row == game->rows - 1 || \
+		game->map[row + 1][col] == ' ' || game->map[row + 1][col] == '1') \
+		&& (col == 0 || game->map[row][col - 1] == ' ' || \
+		game->map[row][col - 1] == '1') && (col == game->cols - 1 || \
+		game->map[row][col + 1] == ' ' || game->map[row][col + 1] == '1'))
+			return ;
 		else
-            ft_exit(1, game);
-    }
+			ft_exit(1, game);
+	}
 }
 
 void	check_valid(t_data *game)
@@ -25,10 +39,10 @@ void	check_valid(t_data *game)
 	int	j;
 
 	i = 0;
-	while(game->map[i])
+	while (game->map[i])
 	{
 		j = 0;
-		while(game->map[i][j])
+		while (game->map[i][j])
 		{
 			if (i == 0 || j == 0 || j == game->cols - 1 || i == game->rows - 1)
 			{
@@ -81,13 +95,13 @@ void	fill_map(t_data *game)
 	line = get_next_line(fd);
 	while (line)
 	{
-        if (count >= game->mapcheck.start_row - 1)
+		if (count >= game->mapcheck.start_row - 1)
 			fill_line(game, &i, fd, line);
-        free(line);
-        line = get_next_line(fd);
-        count++;
-    }
-    game->map[i] = NULL;
-    close(fd);
+		free(line);
+		line = get_next_line(fd);
+		count++;
+	}
+	game->map[i] = NULL;
+	close(fd);
 	check_valid(game);
 }

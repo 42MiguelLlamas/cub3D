@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_data.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: carlos-m <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/01 17:55:53 by carlos-m          #+#    #+#             */
+/*   Updated: 2024/08/01 17:55:57 by carlos-m         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cube.h"
 
 void	init_texture(t_texture *texture, t_ident ident)
@@ -16,7 +28,7 @@ void	init_color(t_color *color, t_ident ident)
 
 void	init_mapcheck(t_mapcheck *mc)
 {
-	mc->no = 0;   
+	mc->no = 0;
 	mc->so = 0;
 	mc->we = 0;
 	mc->ea = 0;
@@ -25,6 +37,16 @@ void	init_mapcheck(t_mapcheck *mc)
 	mc->player_counter = 0;
 	mc->in_map = 0;
 	mc->start_row = 0;
+}
+
+void	init_player(t_data *game)
+{
+	game->player = malloc(sizeof(t_player));
+	game->player->angle_v = 0;
+	game->player->pixel_x = 32;
+	game->player->pixel_y = 32;
+	game->player->pos_x = 0;
+	game->player->pos_y = 0;
 }
 
 void	init_data(t_data *game)
@@ -38,8 +60,7 @@ void	init_data(t_data *game)
 	init_color(&game->floor, F);
 	init_color(&game->ceiling, C);
 	init_mapcheck(&game->mapcheck);
+	init_player(game);
 	game->rows = 0;
 	game->cols = 0;
 }
-
-
