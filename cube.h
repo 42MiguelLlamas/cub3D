@@ -107,6 +107,11 @@ typedef struct s_data
 	int			cols;
 	void		*win;
 	void		*mlx_init;
+	void *img;
+    char *img_data;
+    int bpp;
+    int size_line;
+    int endian;
 }				t_data;
 
 void	init_color(t_color *color, t_ident ident);

@@ -16,7 +16,7 @@ SRCS = ft_itoa.c ft_strlen.c ft_strncmp.c ft_split.c ft_strdup.c ft_atoi.c ft_ls
 OBJS = $(SRCS:.c=.o)
 BONUSSRCS = ft_lstnew.c #ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c
 BONUSOBJS = $(BONUSSRCS:.c=.o)
-CFLAGS = -Wall -Werror -Wextra -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra
 
 
 .PHONY: all bonus clean fclean re

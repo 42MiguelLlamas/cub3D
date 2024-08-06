@@ -22,7 +22,7 @@ SRCS =	main.c						\
 		carlos.c
 		
 OBJS = $(SRCS:.c=.o)
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror
 CC = cc
 LIBFT = libft/libft.a
 MLX = minilibx/libmlx.a
