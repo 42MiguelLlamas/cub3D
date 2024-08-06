@@ -22,8 +22,8 @@
 # include <math.h>
 # include "minilibx/mlx.h"
 
-# define WIDTH 640.00000
-# define HEIGHT 448
+# define WIDTH 1280.00000
+# define HEIGHT 896
 # define M_PI		3.14159265358979323846
 
 typedef enum e_hook

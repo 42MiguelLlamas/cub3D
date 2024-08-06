@@ -248,18 +248,14 @@ void	gameplay(t_data *data)
 
 	data->mlx_init = mlx_init();
 	data->win = mlx_new_window(data->mlx_init, WIDTH, HEIGHT, "Cub3D");
-	while (1)
+	x = 1;
+	while (x <= WIDTH)
 	{
-		x = 1;
-		while (x <= WIDTH)
-		{
-			ang_pocilga = angulo_rayo(data->player, x);
-			//printf("ANGULOS: %f\n", ang_pocilga);
-			dist_bloque = distancia_a_bloque(data, ang_pocilga);
-			printf("ang: %f	dist: %f\n", ang_pocilga, dist_bloque);
-			x++;
-		}
-		break ;
+		ang_pocilga = angulo_rayo(data->player, x);
+		//printf("ANGULOS: %f\n", ang_pocilga);
+		dist_bloque = distancia_a_bloque(data, ang_pocilga);
+		printf("ang: %f	dist: %f\n", ang_pocilga, dist_bloque);
+		x++;
 	}
 	mlx_hook(data->win, ON_DESTROY, 0, destroy, data);
 	mlx_loop(data->mlx_init);
