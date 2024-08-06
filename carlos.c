@@ -252,9 +252,8 @@ void	gameplay(t_data *data)
 	while (x <= WIDTH)
 	{
 		ang_pocilga = angulo_rayo(data->player, x);
-		//printf("ANGULOS: %f\n", ang_pocilga);
 		dist_bloque = distancia_a_bloque(data, ang_pocilga);
-		printf("ang: %f	dist: %f\n", ang_pocilga, dist_bloque);
+		//dibujar
 		x++;
 	}
 	mlx_hook(data->win, ON_DESTROY, 0, destroy, data);
