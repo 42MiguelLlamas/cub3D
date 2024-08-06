@@ -226,12 +226,18 @@ float	angulo_rayo(t_player *player, int x)
 	float	result;
 
 	result = player->angle_v + 45;
-	result = result - (x * (90 / SCREEN_WIDTH));
+	result = result - (x * (90 / WIDTH));
 	if (result >= 360)
 		return (result - 360);
 	if (result < 0)
 		return (result + 360);
 	return (result);
+}
+
+int	destroy(t_data *data)
+{
+	mlx_destroy_window((*data).mlx_init, (*data).win);
+	exit(0);
 }
 
 void	gameplay(t_data *data)
@@ -240,11 +246,12 @@ void	gameplay(t_data *data)
 	float	dist_bloque;
 	int		x;
 
-	//iniciar ventana
+	data->mlx_init = mlx_init();
+	data->win = mlx_new_window(data->mlx_init, WIDTH, HEIGHT, "Cub3D");
 	while (1)
 	{
 		x = 1;
-		while (x <= SCREEN_WIDTH)
+		while (x <= WIDTH)
 		{
 			ang_pocilga = angulo_rayo(data->player, x);
 			//printf("ANGULOS: %f\n", ang_pocilga);
@@ -254,4 +261,6 @@ void	gameplay(t_data *data)
 		}
 		break ;
 	}
+	mlx_hook(data->win, ON_DESTROY, 0, destroy, data);
+	mlx_loop(data->mlx_init);
 }

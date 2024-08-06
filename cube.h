@@ -22,9 +22,20 @@
 # include <math.h>
 # include "minilibx/mlx.h"
 
-# define SCREEN_WIDTH 640.00000
-# define SCREEN_HEIGHT 448
+# define WIDTH 640.00000
+# define HEIGHT 448
 # define M_PI		3.14159265358979323846
+
+typedef enum e_hook
+{
+	ON_KEYDOWN = 2,
+	ON_KEYUP = 3,
+	ON_MOUSEDOWN = 4,
+	ON_MOUSEUP = 5,
+	ON_MOUSEMOVE = 6,
+	ON_EXPOSE = 12,
+	ON_DESTROY = 17
+}			t_hook;
 
 typedef enum e_orient
 {
@@ -94,6 +105,8 @@ typedef struct s_data
 	t_player	*player;
 	int			rows;
 	int			cols;
+	void		*win;
+	void		*mlx_init;
 }				t_data;
 
 void	init_color(t_color *color, t_ident ident);
