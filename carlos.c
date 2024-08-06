@@ -261,7 +261,100 @@ void draw_vertical_line(t_data *data, int x, int start, int end, int color) {
     }
 }
 
-void gameplay(t_data *data) {
+void	draw_img(t_data *data)
+{
+	float ang_pocilga;
+    float dist_bloque;
+    int x;
+    int wall_height;
+    int start;
+    int end;
+    float perpendicular_dist;
+    float correction_angle;
+
+	data->img = mlx_new_image(data->mlx_init, WIDTH, HEIGHT);
+    if (!data->img) {
+        fprintf(stderr, "Error creating image\n");
+        return;
+    }
+
+    data->img_data = mlx_get_data_addr(data->img, &data->bpp, &data->size_line, &data->endian);
+
+    x = 0;
+    while (x < WIDTH) {
+        ang_pocilga = angulo_rayo(data->player, x);
+        dist_bloque = distancia_a_bloque(data, ang_pocilga) / 64;
+
+        // Corregir distorsión de perspectiva
+        correction_angle = data->player->angle_v - ang_pocilga;
+        perpendicular_dist = dist_bloque * cos(correction_angle * (M_PI / 180));
+
+        // Calcular la altura de la pared a dibujar
+        wall_height = (int)(HEIGHT / perpendicular_dist);
+
+        // Calcular el punto de inicio y fin de la línea vertical
+        start = (HEIGHT / 2) - (wall_height / 2);
+        end = start + wall_height;
+
+        // Dibujar la pared
+        draw_vertical_line(data, x, start, end, 0xABFCFA);
+
+        x++;
+    }
+    mlx_put_image_to_window(data->mlx_init, data->win, data->img, 0, 0);
+}
+
+/*void	try_move(t_data *data, int keycode)
+{
+	if ()
+	if (keycode == 119)
+	{
+	}
+	if (keycode == 115)
+	{
+	}
+	if (keycode == 97)
+	{
+	}
+	if (keycode == 100)
+	{
+	}
+}*/
+
+void	change_vision(t_data *data, int keycode)
+{
+	if (keycode == 65361) //flecha izq, cambiar vision
+		data->player->angle_v = data->player->angle_v + 5;
+	if (keycode == 65363) //flecha dcha, cambiar vision
+		data->player->angle_v = data->player->angle_v - 5;
+	draw_img(data);
+}
+
+int	ft_move(int keycode, t_data *data)
+{
+	printf("%d\n", keycode);
+	if (keycode == 65307)
+	{
+		mlx_destroy_window((*data).mlx_init, (*data).win);
+		exit (0);
+	}
+	else if (keycode == 65361) //flecha izq, cambiar vision
+		change_vision(data, keycode);
+	else if (keycode == 65363) //flecha dcha, cambiar vision
+		change_vision(data, keycode);
+	/*else if (keycode == 119) //W
+		try_move(data, 119);
+	else if (keycode == 115)//S
+		try_move(data, 115);
+	else if (keycode == 97)//A
+		try_move(data, 97);
+	else if (keycode == 100)//D
+		try_move(data, 100);*/
+	return (0);
+}
+
+void gameplay(t_data *data)
+{
     float ang_pocilga;
     float dist_bloque;
     int x;
@@ -313,6 +406,7 @@ void gameplay(t_data *data) {
     }
 
     mlx_put_image_to_window(data->mlx_init, data->win, data->img, 0, 0);
+	mlx_key_hook(data->win, ft_move, data);
     mlx_hook(data->win, ON_DESTROY, 0, destroy, data);
     mlx_loop(data->mlx_init);
 }
