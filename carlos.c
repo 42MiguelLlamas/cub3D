@@ -240,10 +240,12 @@ int	destroy(t_data *data)
 	exit(0);
 }
 
-void put_pixel_to_image(t_data *data, int x, int y, int color) {
-    int pixel;
+void put_pixel_to_image(t_data *data, int x, int y, int color)
+{
+    int	pixel;
 
-    if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT) {
+    if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
+	{
         pixel = (y * data->size_line) + (x * (data->bpp / 8));
         data->img_data[pixel] = color;
         data->img_data[pixel + 1] = color >> 8;
@@ -251,11 +253,13 @@ void put_pixel_to_image(t_data *data, int x, int y, int color) {
     }
 }
 
-void draw_vertical_line(t_data *data, int x, int start, int end, int color) {
-    int y;
+void draw_vertical_line(t_data *data, int x, int start, int end, int color)
+{
+    int	y;
 
     y = start;
-    while (y <= end) {
+    while (y <= end)
+	{
         put_pixel_to_image(data, x, y, color);
         y++;
     }
@@ -273,7 +277,8 @@ void	draw_img(t_data *data)
     float correction_angle;
 
 	data->img = mlx_new_image(data->mlx_init, WIDTH, HEIGHT);
-    if (!data->img) {
+    if (!data->img)
+	{
         fprintf(stderr, "Error creating image\n");
         return;
     }
@@ -281,7 +286,8 @@ void	draw_img(t_data *data)
     data->img_data = mlx_get_data_addr(data->img, &data->bpp, &data->size_line, &data->endian);
 
     x = 0;
-    while (x < WIDTH) {
+    while (x < WIDTH)
+	{
         ang_pocilga = angulo_rayo(data->player, x);
         dist_bloque = distancia_a_bloque(data, ang_pocilga) / 64;
 
@@ -304,22 +310,35 @@ void	draw_img(t_data *data)
     mlx_put_image_to_window(data->mlx_init, data->win, data->img, 0, 0);
 }
 
-/*void	try_move(t_data *data, int keycode)
+void	try_move(t_data *data, int keycode)//hay que cambiarlo todo, tiene que variar en función de hacia donde esté mirando
 {
-	if ()
-	if (keycode == 119)
+	int	aux_pixel;
+	int	aux_pos;
+	int	pix_to_move;
+
+	pix_to_move = 20
+	if (keycode == 119)//W
+	{
+		aux_pixel = data->player->pixel_y - pix_to_move;
+		if (aux_pixel < 0)
+		{
+			data->player->pos_y--;
+			data->player->pixel_y = 64 + aux_pixel;
+		}
+		else
+			data->player->pixel_y -= pix_to_move;
+	}
+	else if (keycode == 115)//S
 	{
 	}
-	if (keycode == 115)
+	else if (keycode == 97)//A
 	{
 	}
-	if (keycode == 97)
+	else if (keycode == 100)//D
 	{
 	}
-	if (keycode == 100)
-	{
-	}
-}*/
+	draw_img(data);
+}
 
 void	change_vision(t_data *data, int keycode)
 {
@@ -332,7 +351,6 @@ void	change_vision(t_data *data, int keycode)
 
 int	ft_move(int keycode, t_data *data)
 {
-	printf("%d\n", keycode);
 	if (keycode == 65307)
 	{
 		mlx_destroy_window((*data).mlx_init, (*data).win);
@@ -342,14 +360,14 @@ int	ft_move(int keycode, t_data *data)
 		change_vision(data, keycode);
 	else if (keycode == 65363) //flecha dcha, cambiar vision
 		change_vision(data, keycode);
-	/*else if (keycode == 119) //W
+	else if (keycode == 119) //W
 		try_move(data, 119);
 	else if (keycode == 115)//S
 		try_move(data, 115);
 	else if (keycode == 97)//A
 		try_move(data, 97);
 	else if (keycode == 100)//D
-		try_move(data, 100);*/
+		try_move(data, 100);
 	return (0);
 }
 
