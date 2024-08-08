@@ -310,32 +310,57 @@ void	draw_img(t_data *data)
     mlx_put_image_to_window(data->mlx_init, data->win, data->img, 0, 0);
 }
 
+#define hipo 20
+
 void	try_move(t_data *data, int keycode)//hay que cambiarlo todo, tiene que variar en función de hacia donde esté mirando
 {
-	int	aux_pixel;
-	int	aux_pos;
-	int	pix_to_move;
+	float	pix_x;
+	float	pix_y;
 
-	pix_to_move = 20
+	pix_x = 0;
+	pix_y = 0;
+	printf("%d\n", keycode);
 	if (keycode == 119)//W
 	{
-		aux_pixel = data->player->pixel_y - pix_to_move;
-		if (aux_pixel < 0)
-		{
-			data->player->pos_y--;
-			data->player->pixel_y = 64 + aux_pixel;
-		}
-		else
-			data->player->pixel_y -= pix_to_move;
+		pix_x = cos(data->player->angle_v * (M_PI / 180)) * hipo;
+		pix_y = sin(data->player->angle_v * (M_PI / 180)) * hipo;
 	}
 	else if (keycode == 115)//S
 	{
+		pix_x = -cos(data->player->angle_v * (M_PI / 180)) * hipo;
+		pix_y = -sin(data->player->angle_v * (M_PI / 180)) * hipo;
 	}
 	else if (keycode == 97)//A
 	{
+		pix_x = cos(data->player->angle_v * (M_PI / 180)) * hipo;
+		pix_y = -sin(data->player->angle_v * (M_PI / 180)) * hipo;
 	}
 	else if (keycode == 100)//D
 	{
+		pix_x = -cos(data->player->angle_v * (M_PI / 180)) * hipo;
+		pix_y = sin(data->player->angle_v * (M_PI / 180)) * hipo;
+	}
+	data->player->pixel_x = data->player->pixel_x + pix_x;
+	data->player->pixel_y = data->player->pixel_y - pix_y;
+	if (data->player->pixel_x > 64)
+	{
+		data->player->pixel_x = data->player->pixel_x + pix_x - 64;
+		data->player->pos_x++;
+	}
+	else if (data->player->pixel_x < 0)
+	{
+		data->player->pixel_x = data->player->pixel_x + pix_x + 64;
+		data->player->pos_x--;
+	}
+	if (data->player->pixel_y < 0)
+	{
+		data->player->pixel_y = data->player->pixel_y - pix_y + 64;
+		data->player->pos_y--;
+	}
+	else if (data->player->pixel_y > 64)
+	{
+		data->player->pixel_y = data->player->pixel_y - pix_y - 64;
+		data->player->pos_y++;
 	}
 	draw_img(data);
 }
@@ -346,6 +371,10 @@ void	change_vision(t_data *data, int keycode)
 		data->player->angle_v = data->player->angle_v + 5;
 	if (keycode == 65363) //flecha dcha, cambiar vision
 		data->player->angle_v = data->player->angle_v - 5;
+	if (data->player->angle_v > 360)
+		data->player->angle_v = data->player->angle_v - 360;
+	if (data->player->angle_v < 0)
+		data->player->angle_v = data->player->angle_v + 360;
 	draw_img(data);
 }
 
@@ -424,7 +453,7 @@ void gameplay(t_data *data)
     }
 
     mlx_put_image_to_window(data->mlx_init, data->win, data->img, 0, 0);
-	mlx_key_hook(data->win, ft_move, data);
+	mlx_hook(data->win, 2, 1L << 0, ft_move, data);
     mlx_hook(data->win, ON_DESTROY, 0, destroy, data);
     mlx_loop(data->mlx_init);
 }
