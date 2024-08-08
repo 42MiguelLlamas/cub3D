@@ -319,7 +319,6 @@ void	try_move(t_data *data, int keycode)//hay que cambiarlo todo, tiene que vari
 
 	pix_x = 0;
 	pix_y = 0;
-	printf("%d\n", keycode);
 	if (keycode == 119)//W
 	{
 		pix_x = cos(data->player->angle_v * (M_PI / 180)) * hipo;
@@ -332,13 +331,13 @@ void	try_move(t_data *data, int keycode)//hay que cambiarlo todo, tiene que vari
 	}
 	else if (keycode == 97)//A
 	{
-		pix_x = cos(data->player->angle_v * (M_PI / 180)) * hipo;
-		pix_y = -sin(data->player->angle_v * (M_PI / 180)) * hipo;
+		pix_x = -sin(data->player->angle_v * (M_PI / 180)) * hipo;
+		pix_y = cos(data->player->angle_v * (M_PI / 180)) * hipo;
 	}
 	else if (keycode == 100)//D
 	{
-		pix_x = -cos(data->player->angle_v * (M_PI / 180)) * hipo;
-		pix_y = sin(data->player->angle_v * (M_PI / 180)) * hipo;
+		pix_x = sin(data->player->angle_v * (M_PI / 180)) * hipo;
+		pix_y = -cos(data->player->angle_v * (M_PI / 180)) * hipo;
 	}
 	data->player->pixel_x = data->player->pixel_x + pix_x;
 	data->player->pixel_y = data->player->pixel_y - pix_y;

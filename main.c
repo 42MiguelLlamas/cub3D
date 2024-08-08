@@ -49,9 +49,7 @@ int	main(int argc, char **argv)
 	init_data(&game);
 	game.mapname = ft_strdup(argv[1]);
 	check_map(&game);
-	printf("Chequeado Mapa.\n");
 	fill_map(&game);
-	print_amap(game.map);
 	gameplay(&game);
 	free_game_data(&game);
 }
