@@ -150,6 +150,12 @@ float	ang_270(t_data *data, float ang);
 float	ang_180(t_data *data, float ang);
 float	ang_90(t_data *data, float ang);
 
+void	change_vision(t_data *data, int keycode);
+int		ft_move(int keycode, t_data *data);
+void	draw_img(t_data *data);
+float	distancia_a_bloque(t_data *data, float ang);
+float	angulo_rayo(t_player *player, int x);
+
 void	gameplay(t_data *data);
 
 #endif

@@ -21,7 +21,9 @@ SRCS =	main.c						\
 		parse/init_data.c			\
 		carlos.c					\
 		distances/angles_from_180.c	\
-		distances/angles_til_180.c
+		distances/angles_til_180.c	\
+		distances/moves.c			\
+		draw/draw.c
 		
 OBJS = $(SRCS:.c=.o)
 CFLAGS = -Wall -Wextra -Werror
