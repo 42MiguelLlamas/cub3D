@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <string.h>
+# include <fcntl.h>
 # include "gnl/get_next_line.h"
 # include "libft/libft.h"
 # include <math.h>
@@ -60,6 +61,13 @@ typedef struct s_texture
 {
 	t_ident	id;
 	char	*path;
+	void    *img_ptr;
+    int     *data;
+    int     width;
+    int     height;
+    int     bpp;
+    int     size_line;
+    int     endian;
 }				t_texture;
 
 typedef struct s_color
@@ -129,6 +137,7 @@ void	init_color(t_color *color, t_ident ident);
 void	init_texture(t_texture *texture, t_ident ident);
 void	init_mapcheck(t_mapcheck *mc);
 void	init_data(t_data *game);
+void	check_imgs(t_data *data);
 
 void	fill_map(t_data *game);
 

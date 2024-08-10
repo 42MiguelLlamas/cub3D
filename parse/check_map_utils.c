@@ -32,6 +32,7 @@ void	check_textures(char	**split, t_data *game)
 
 void	fill_texture(char *path, t_ident ident, t_data	*game)
 {
+	path[ft_strlen(path) - 1] = '\0';
 	if (ident == NO)
 	{
 		game->mapcheck.no++;

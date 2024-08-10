@@ -49,7 +49,9 @@ int	main(int argc, char **argv)
 	init_data(&game);
 	game.mapname = ft_strdup(argv[1]);
 	check_map(&game);
+	check_imgs(&game);
 	fill_map(&game);
 	gameplay(&game);
 	free_game_data(&game);
+	return (0);
 }
