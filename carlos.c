@@ -72,6 +72,7 @@ void	gameplay(t_data *data)
 		fprintf(stderr, "Error creating window\n");
 		return ;
 	}
+	create_images(data);
 	draw_img(data);
 	mlx_hook(data->win, 2, 1L << 0, ft_move, data);
 	mlx_hook(data->win, ON_DESTROY, 0, destroy, data);

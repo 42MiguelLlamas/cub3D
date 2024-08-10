@@ -12,23 +12,28 @@
 
 #include "../cube.h"
 
-void	create_imgaes(t_data *data)
+void	create_images(t_data *data)
 {
 	data->north.img_ptr = mlx_xpm_file_to_image(data->mlx_init, \
 	data->north.path, &data->north.width, &data->north.height);
+	if (!data->north.img_ptr)
+		ft_exit(0, data);
 	data->south.img_ptr = mlx_xpm_file_to_image(data->mlx_init, \
 	data->south.path, &data->south.width, &data->south.height);
 	data->east.img_ptr = mlx_xpm_file_to_image(data->mlx_init, \
 	data->east.path, &data->east.width, &data->east.height);
 	data->west.img_ptr = mlx_xpm_file_to_image(data->mlx_init, \
 	data->west.path, &data->west.width, &data->west.height);
-	data->north.data = (int *)mlx_get_data_addr(data->north.img_ptr, \
+	if (!data->north.img_ptr || !data->south.img_ptr || !data->east.img_ptr || !data->west.img_ptr)
+		ft_exit(0, data);
+	printf("PUTONGA\n");
+	data->north.buff = (int *)mlx_get_data_addr(data->north.img_ptr, \
 	&data->north.bpp, &data->north.size_line, &data->north.endian);
-	data->south.data = (int *)mlx_get_data_addr(data->south.img_ptr, \
+	data->south.buff = (int *)mlx_get_data_addr(data->south.img_ptr, \
 	&data->south.bpp, &data->south.size_line, &data->south.endian);
-	data->east.data = (int *)mlx_get_data_addr(data->east.img_ptr, \
+	data->east.buff = (int *)mlx_get_data_addr(data->east.img_ptr, \
 	&data->east.bpp, &data->east.size_line, &data->east.endian);
-	data->west.data = (int *)mlx_get_data_addr(data->west.img_ptr, \
+	data->west.buff = (int *)mlx_get_data_addr(data->west.img_ptr, \
 	&data->west.bpp, &data->west.size_line, &data->west.endian);
 }
 
@@ -56,5 +61,4 @@ void	check_imgs(t_data *data)
 		ft_strlen(data->west.path) - 4, 4) != 0)
 		ft_exit(0, data);
 	close(i);
-	create_imgaes(data);
 }
