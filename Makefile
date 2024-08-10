@@ -19,7 +19,9 @@ SRCS =	main.c						\
 		parse/fill_map.c			\
 		parse/check_map_utils.c		\
 		parse/init_data.c			\
-		carlos.c
+		carlos.c					\
+		distances/angles_from_180.c	\
+		distances/angles_til_180.c
 		
 OBJS = $(SRCS:.c=.o)
 CFLAGS = -Wall -Wextra -Werror

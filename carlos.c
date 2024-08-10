@@ -12,202 +12,6 @@
 
 #include "cube.h"
 
-int	found_cub(t_data *data, int x_pos, int y_pos)
-{
-	if (x_pos < 0 || y_pos < 0 || y_pos >= data->rows || x_pos >= data->cols)
-		return (-2);
-	if (data->map[y_pos][x_pos] == '1')
-		return (1);
-	return (-1);
-}
-
-float	ang_360(t_data *data, float ang)
-{
-	float	x_dist;
-	float	y_dist;
-	float	aux_dist;
-	int		n_iter;
-	int		aux_x;
-	int		aux_y;
-
-	ang = ang - 270;
-	x_dist = 0;
-	n_iter = 0;
-	aux_x = data->player->pos_x;
-	aux_y = data->player->pos_y;
-	while (found_cub(data, aux_x, aux_y) == -1)
-	{
-		x_dist = ((64 - data->player->pixel_y + (64 * n_iter)) / \
-		(cos(ang * (M_PI / 180))));
-		aux_dist = x_dist * sin(ang * (M_PI / 180));
-		aux_y++;
-		aux_x = data->player->pos_x + ((aux_dist + data->player->pixel_x) / 64);
-		if (found_cub(data, aux_x, aux_y) == -2)
-			x_dist = 100000000;
-		n_iter++;
-	}
-	y_dist = 0;
-	n_iter = 0;
-	aux_x = data->player->pos_x;
-	aux_y = data->player->pos_y;
-	while (found_cub(data, aux_x, aux_y) == -1)
-	{
-		y_dist = (((64 - data->player->pixel_x) + (64 * n_iter)) / \
-		sin(ang * (M_PI / 180)));
-		aux_dist = y_dist * cos(ang * (M_PI / 180));
-		aux_x++;
-		aux_y = data->player->pos_y + ((aux_dist + data->player->pixel_y) / 64);
-		if (found_cub(data, aux_x, aux_y) == -2)
-			y_dist = 100000000;
-		n_iter++;
-	}
-	if (x_dist > y_dist)
-		return (y_dist);
-	if (x_dist == 100000000)
-		return (-1);
-	return (x_dist);
-}
-
-float	ang_270(t_data *data, float ang)
-{
-	float	x_dist;
-	float	y_dist;
-	float	aux_dist;
-	int		n_iter;
-	int		aux_x;
-	int		aux_y;
-
-	ang = ang - 180;
-	x_dist = 0;
-	n_iter = 0;
-	aux_x = data->player->pos_x;
-	aux_y = data->player->pos_y;
-	while (found_cub(data, aux_x, aux_y) == -1)
-	{
-		x_dist = (((64 - data->player->pixel_y) + (64 * n_iter)) / \
-		(sin(ang * (M_PI / 180))));
-		aux_dist = x_dist * cos(ang * (M_PI / 180));
-		aux_y++;
-		aux_x = data->player->pos_x - ((aux_dist - data->player->pixel_x) / 64);
-		if (found_cub(data, aux_x, aux_y) == -2)
-			x_dist = 100000000;
-		n_iter++;
-	}
-	y_dist = 0;
-	n_iter = 0;
-	aux_x = data->player->pos_x;
-	aux_y = data->player->pos_y;
-	while (found_cub(data, aux_x, aux_y) == -1)
-	{
-		y_dist = ((data->player->pixel_x + (64 * n_iter)) / \
-		cos(ang * (M_PI / 180)));
-		aux_dist = y_dist * sin(ang * (M_PI / 180));
-		aux_x--;
-		aux_y = data->player->pos_y + ((aux_dist + data->player->pixel_y) / 64);
-		if (found_cub(data, aux_x, aux_y) == -2)
-			y_dist = 100000000;
-		n_iter++;
-	}
-	if (x_dist > y_dist)
-		return (y_dist);
-	if (x_dist == 100000000)
-		return (-1);
-	return (x_dist);
-}
-
-float	ang_180(t_data *data, float ang)
-{
-	float	x_dist;
-	float	y_dist;
-	float	aux_dist;
-	int		n_iter;
-	int		aux_x;
-	int		aux_y;
-
-	ang = ang - 90;
-	x_dist = 0;
-	n_iter = 0;
-	aux_x = data->player->pos_x;
-	aux_y = data->player->pos_y;
-	while (found_cub(data, aux_x, aux_y) == -1)
-	{
-		x_dist = ((data->player->pixel_y + (64 * n_iter)) / \
-		(cos(ang * (M_PI / 180))));
-		aux_dist = x_dist * sin(ang * (M_PI / 180));
-		aux_y--;
-		aux_x = data->player->pos_x - ((aux_dist - data->player->pixel_x) / 64);
-		if (found_cub(data, aux_x, aux_y) == -2)
-			x_dist = 100000000;
-		n_iter++;
-	}
-	y_dist = 0;
-	n_iter = 0;
-	aux_x = data->player->pos_x;
-	aux_y = data->player->pos_y;
-	while (found_cub(data, aux_x, aux_y) == -1)
-	{
-		y_dist = (data->player->pixel_x + (64 * n_iter) / \
-		(sin(ang * (M_PI / 180))));
-		aux_dist = y_dist * cos(ang * (M_PI / 180));
-		aux_x--;
-		aux_y = data->player->pos_y - ((aux_dist - data->player->pixel_y) / 64);
-		if (found_cub(data, aux_x, aux_y) == -2)
-			y_dist = 100000000;
-		n_iter++;
-	}
-	if (x_dist > y_dist)
-		return (y_dist);
-	if (x_dist == 100000000)
-		return (-1);
-	return (x_dist);
-}
-
-float	ang_90(t_data *data, float ang)
-{
-	float	x_dist;
-	float	y_dist;
-	float	aux_dist;
-	int		n_iter;
-	int		aux_x;
-	int		aux_y;
-
-	x_dist = 0;
-	n_iter = 0;
-	aux_x = data->player->pos_x;
-	aux_y = data->player->pos_y;
-	while (found_cub(data, aux_x, aux_y) == -1)
-	{
-		x_dist = ((data->player->pixel_y + (64 * n_iter)) / \
-		(sin(ang * (M_PI / 180))));
-		aux_dist = x_dist * cos(ang * (M_PI / 180));
-		aux_y--;
-		aux_x = data->player->pos_x + ((aux_dist + data->player->pixel_x) / 64);
-		if (found_cub(data, aux_x, aux_y) == -2)
-			x_dist = 100000000;
-		n_iter++;
-	}
-	y_dist = 0;
-	n_iter = 0;
-	aux_x = data->player->pos_x;
-	aux_y = data->player->pos_y;
-	while (found_cub(data, aux_x, aux_y) == -1)
-	{
-		y_dist = ((64 - data->player->pixel_x + (64 * n_iter)) / \
-		(cos(ang * (M_PI / 180))));
-		aux_dist = y_dist * sin(ang * (M_PI / 180));
-		aux_x++;
-		aux_y = data->player->pos_y - ((aux_dist - data->player->pixel_y) / 64);
-		if (found_cub(data, aux_x, aux_y) == -2)
-			y_dist = 100000000;
-		n_iter++;
-	}
-	if (x_dist > y_dist)
-		return (y_dist);
-	if (x_dist == 100000000)
-		return (-1);
-	return (x_dist);
-}
-
 float	distancia_a_bloque(t_data *data, float ang)
 {
 	if (ang >= 0 && ang < 90)
@@ -240,7 +44,7 @@ int	destroy(t_data *data)
 	exit(0);
 }
 
-void put_pixel_to_image(t_data *data, int x, int y, int color)
+void	put_pixel_to_image(t_data *data, int x, int y, int color)
 {
     int	pixel;
 
@@ -304,15 +108,12 @@ void	draw_img(t_data *data)
 
         // Dibujar la pared
         draw_vertical_line(data, x, start, end, 0xABFCFA);
-
         x++;
     }
     mlx_put_image_to_window(data->mlx_init, data->win, data->img, 0, 0);
 }
 
-#define hipo 20
-
-void	try_move(t_data *data, int keycode)//hay que cambiarlo todo, tiene que variar en función de hacia donde esté mirando
+void	try_move(t_data *data, int keycode)
 {
 	float	pix_x;
 	float	pix_y;
@@ -321,54 +122,74 @@ void	try_move(t_data *data, int keycode)//hay que cambiarlo todo, tiene que vari
 	pix_y = 0;
 	if (keycode == 119)//W
 	{
-		pix_x = cos(data->player->angle_v * (M_PI / 180)) * hipo;
-		pix_y = sin(data->player->angle_v * (M_PI / 180)) * hipo;
+		pix_x = cos(data->player->angle_v * (M_PI / 180)) * HIPO;
+		pix_y = sin(data->player->angle_v * (M_PI / 180)) * HIPO;
 	}
 	else if (keycode == 115)//S
 	{
-		pix_x = -cos(data->player->angle_v * (M_PI / 180)) * hipo;
-		pix_y = -sin(data->player->angle_v * (M_PI / 180)) * hipo;
+		pix_x = -cos(data->player->angle_v * (M_PI / 180)) * HIPO;
+		pix_y = -sin(data->player->angle_v * (M_PI / 180)) * HIPO;
 	}
 	else if (keycode == 97)//A
 	{
-		pix_x = -sin(data->player->angle_v * (M_PI / 180)) * hipo;
-		pix_y = cos(data->player->angle_v * (M_PI / 180)) * hipo;
+		pix_x = -sin(data->player->angle_v * (M_PI / 180)) * HIPO;
+		pix_y = cos(data->player->angle_v * (M_PI / 180)) * HIPO;
 	}
 	else if (keycode == 100)//D
 	{
-		pix_x = sin(data->player->angle_v * (M_PI / 180)) * hipo;
-		pix_y = -cos(data->player->angle_v * (M_PI / 180)) * hipo;
+		pix_x = sin(data->player->angle_v * (M_PI / 180)) * HIPO;
+		pix_y = -cos(data->player->angle_v * (M_PI / 180)) * HIPO;
 	}
 	data->player->pixel_x = data->player->pixel_x + pix_x;
 	data->player->pixel_y = data->player->pixel_y - pix_y;
 	if (data->player->pixel_x > 64)
 	{
-		data->player->pixel_x = data->player->pixel_x + pix_x - 64;
-		data->player->pos_x++;
+		if (data->player->pos_x + 1 < data->cols)
+		{
+			data->player->pixel_x = data->player->pixel_x + pix_x - 64;
+			data->player->pos_x++;
+		}
+		else
+			data->player->pixel_x = 63;
 	}
 	else if (data->player->pixel_x < 0)
 	{
-		data->player->pixel_x = data->player->pixel_x + pix_x + 64;
-		data->player->pos_x--;
+		if (data->player->pos_x - 1 >= 0)
+		{
+			data->player->pixel_x = data->player->pixel_x + pix_x + 64;
+			data->player->pos_x--;
+		}
+		else
+			data->player->pixel_x = 0;
 	}
 	if (data->player->pixel_y < 0)
 	{
-		data->player->pixel_y = data->player->pixel_y - pix_y + 64;
-		data->player->pos_y--;
+		if (data->player->pos_y - 1 >= 0)
+		{
+			data->player->pixel_y = data->player->pixel_y - pix_y + 64;
+			data->player->pos_y--;
+		}
+		else
+			data->player->pixel_y = 0;
 	}
 	else if (data->player->pixel_y > 64)
 	{
-		data->player->pixel_y = data->player->pixel_y - pix_y - 64;
-		data->player->pos_y++;
+		if (data->player->pos_y + 1 < data->rows)
+		{
+			data->player->pixel_y = data->player->pixel_y - pix_y - 64;
+			data->player->pos_y++;
+		}
+		else
+			data->player->pixel_y = 63;
 	}
 	draw_img(data);
 }
 
 void	change_vision(t_data *data, int keycode)
 {
-	if (keycode == 65361) //flecha izq, cambiar vision
+	if (keycode == 65361)
 		data->player->angle_v = data->player->angle_v + 5;
-	if (keycode == 65363) //flecha dcha, cambiar vision
+	if (keycode == 65363)
 		data->player->angle_v = data->player->angle_v - 5;
 	if (data->player->angle_v > 360)
 		data->player->angle_v = data->player->angle_v - 360;
@@ -384,17 +205,17 @@ int	ft_move(int keycode, t_data *data)
 		mlx_destroy_window((*data).mlx_init, (*data).win);
 		exit (0);
 	}
-	else if (keycode == 65361) //flecha izq, cambiar vision
+	else if (keycode == 65361)
 		change_vision(data, keycode);
-	else if (keycode == 65363) //flecha dcha, cambiar vision
+	else if (keycode == 65363)
 		change_vision(data, keycode);
-	else if (keycode == 119) //W
+	else if (keycode == 119)
 		try_move(data, 119);
-	else if (keycode == 115)//S
+	else if (keycode == 115)
 		try_move(data, 115);
-	else if (keycode == 97)//A
+	else if (keycode == 97)
 		try_move(data, 97);
-	else if (keycode == 100)//D
+	else if (keycode == 100)
 		try_move(data, 100);
 	return (0);
 }
@@ -410,6 +231,7 @@ void gameplay(t_data *data)
     float perpendicular_dist;
     float correction_angle;
 
+	data->cols--;
     data->mlx_init = mlx_init();
     if (!data->mlx_init) {
         fprintf(stderr, "Error initializing MLX\n");

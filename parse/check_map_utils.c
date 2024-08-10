@@ -12,6 +12,24 @@
 
 #include "../cube.h"
 
+void	check_textures(char	**split, t_data *game)
+{
+	if (split[0][0] == 78 && split[0][1] == 79 && split[0][2] == 0)
+		fill_texture(split[1], NO, game);
+	else if (split[0][0] == 83 && split[0][1] == 79 && split[0][2] == 0)
+		fill_texture(split[1], SO, game);
+	else if (split[0][0] == 87 && split[0][1] == 69 && split[0][2] == 0)
+		fill_texture(split[1], WE, game);
+	else if (split[0][0] == 69 && split[0][1] == 65 && split[0][2] == 0)
+		fill_texture(split[1], EA, game);
+	else if (split[0][0] == 70 && split[0][1] == 0)
+		check_color(split[1], F, game);
+	else if (split[0][0] == 67 && split[0][1] == 0)
+		check_color(split[1], C, game);
+	else
+		ft_exit(1, game);
+}
+
 void	fill_texture(char *path, t_ident ident, t_data	*game)
 {
 	if (ident == NO)

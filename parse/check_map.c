@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../cube.h"
-
+/*
 void	print_arr(char **array)
 {
 	int	i;
@@ -96,25 +96,7 @@ void	print_game_data(const t_data *game)
 	print_color(&game->ceiling);
 	printf("Rows: %d, Cols: %d\n, StartRow: %d\n", \
 	game->rows, game->cols, game->mapcheck.start_row);
-}
-
-void	check_textures(char	**split, t_data *game)
-{
-	if (split[0][0] == 78 && split[0][1] == 79 && split[0][2] == 0)
-		fill_texture(split[1], NO, game);
-	else if (split[0][0] == 83 && split[0][1] == 79 && split[0][2] == 0)
-		fill_texture(split[1], SO, game);
-	else if (split[0][0] == 87 && split[0][1] == 69 && split[0][2] == 0)
-		fill_texture(split[1], WE, game);
-	else if (split[0][0] == 69 && split[0][1] == 65 && split[0][2] == 0)
-		fill_texture(split[1], EA, game);
-	else if (split[0][0] == 70 && split[0][1] == 0)
-		check_color(split[1], F, game);
-	else if (split[0][0] == 67 && split[0][1] == 0)
-		check_color(split[1], C, game);
-	else
-		ft_exit(1, game);
-}
+}*/
 
 void	check_line(t_data *game, char *line)
 {
@@ -142,8 +124,10 @@ void	check_line(t_data *game, char *line)
 	free(line);
 }
 
-void	pick_angle(t_data *game, char c)
+void	pick_angle(t_data *game, char c, int row)
 {
+	game->mapcheck.player_counter++;
+	game->player->pos_y = row;
 	if (c == 'N')
 		game->player->angle_v = 90;
 	else if (c == 'S')
@@ -160,7 +144,6 @@ void	check_chars(t_data *game, char *line, int row)
 	int		i;
 
 	i = 0;
-	c = 0;
 	while (line[i] != '\0')
 	{
 		c = (char)line[i];
@@ -173,14 +156,12 @@ void	check_chars(t_data *game, char *line, int row)
 		if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 		{
 			game->player->pos_x = i;
-			game->player->pos_y = row;
-			pick_angle(game, c);
 			if (game->mapcheck.player_counter > 0)
 			{
 				free(line);
 				ft_exit(1, game);
 			}
-			game->mapcheck.player_counter++;
+			pick_angle(game, c, row);
 		}
 		i++;
 	}
