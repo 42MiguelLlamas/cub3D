@@ -61,6 +61,7 @@ void	init_data(t_data *game)
 	init_color(&game->ceiling, C);
 	init_mapcheck(&game->mapcheck);
 	init_player(game);
+	game->texture = 0;
 	game->rows = 0;
 	game->cols = 0;
 }

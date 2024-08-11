@@ -40,9 +40,13 @@ float	aux_180(t_data *data, t_angle_calc *aux, float ang)
 		aux->n_iter++;
 	}
 	if (aux->x_dist > aux->y_dist)
+	{
+		data->texture = WE;
 		return (aux->y_dist);
+	}
 	if (aux->x_dist == 100000000)
 		return (-1);
+	data->texture = NO;
 	return (aux->x_dist);
 }
 
@@ -89,9 +93,13 @@ float	aux_90(t_data *data, t_angle_calc *aux, float ang)
 		aux->n_iter++;
 	}
 	if (aux->x_dist > aux->y_dist)
+	{
+		data->texture = EA;
 		return (aux->y_dist);
+	}
 	if (aux->x_dist == 100000000)
 		return (-1);
+	data->texture = NO;
 	return (aux->x_dist);
 }
 

@@ -122,6 +122,7 @@ typedef struct s_data
 	t_color		ceiling;
 	t_mapcheck	mapcheck;
 	t_player	*player;
+	t_ident		texture;
 	int			rows;
 	int			cols;
 	void		*win;
@@ -131,6 +132,9 @@ typedef struct s_data
 	int			bpp;
 	int			size_line;
 	int			endian;
+	int			line_height;
+	int			tex_x;
+	float		tex_step;
 }				t_data;
 
 void	init_color(t_color *color, t_ident ident);

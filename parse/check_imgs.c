@@ -26,7 +26,6 @@ void	create_images(t_data *data)
 	data->west.path, &data->west.width, &data->west.height);
 	if (!data->north.img_ptr || !data->south.img_ptr || !data->east.img_ptr || !data->west.img_ptr)
 		ft_exit(0, data);
-	printf("PUTONGA\n");
 	data->north.buff = (int *)mlx_get_data_addr(data->north.img_ptr, \
 	&data->north.bpp, &data->north.size_line, &data->north.endian);
 	data->south.buff = (int *)mlx_get_data_addr(data->south.img_ptr, \
