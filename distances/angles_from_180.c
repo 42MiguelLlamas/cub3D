@@ -12,7 +12,7 @@
 
 #include "../cube.h"
 
-float	aux_360(t_data *data, t_angle_calc *aux, float ang)
+float	aux_360(t_data *data, t_angle_calc *aux, t_img_calc *img_c)
 {
 	aux->y_dist = 0;
 	aux->n_iter = 0;
@@ -21,8 +21,8 @@ float	aux_360(t_data *data, t_angle_calc *aux, float ang)
 	while (found_cub(data, aux->aux_x, aux->aux_y) == -1)
 	{
 		aux->y_dist = (((64 - data->player->pixel_x) + (64 * aux->n_iter)) / \
-		sin(ang * (M_PI / 180)));
-		aux->aux_dist = aux->y_dist * cos(ang * (M_PI / 180));
+		sin(img_c->ang_cum * (M_PI / 180)));
+		aux->aux_dist = aux->y_dist * cos(img_c->ang_cum * (M_PI / 180));
 		aux->aux_x++;
 		aux->aux_y = data->player->pos_y + ((aux->aux_dist + \
 		data->player->pixel_y) / 64);
@@ -30,6 +30,7 @@ float	aux_360(t_data *data, t_angle_calc *aux, float ang)
 			aux->y_dist = 100000000;
 		aux->n_iter++;
 	}
+	img_c->ang_cum += 270;
 	if (aux->x_dist > aux->y_dist)
 	{
 		data->texture = EA;
@@ -41,11 +42,11 @@ float	aux_360(t_data *data, t_angle_calc *aux, float ang)
 	return (aux->x_dist);
 }
 
-float	ang_360(t_data *data, float ang)
+float	ang_360(t_data *data, t_img_calc *img_c)
 {
 	t_angle_calc	aux;
 
-	ang = ang - 270;
+	img_c->ang_cum = img_c->ang_cum - 270;
 	aux.x_dist = 0.00;
 	aux.n_iter = 0;
 	aux.aux_x = data->player->pos_x;
@@ -53,8 +54,8 @@ float	ang_360(t_data *data, float ang)
 	while (found_cub(data, aux.aux_x, aux.aux_y) == -1)
 	{
 		aux.x_dist = ((64 - data->player->pixel_y + (64 * aux.n_iter)) / \
-		(cos(ang * (M_PI / 180))));
-		aux.aux_dist = aux.x_dist * sin(ang * (M_PI / 180));
+		(cos(img_c->ang_cum * (M_PI / 180))));
+		aux.aux_dist = aux.x_dist * sin(img_c->ang_cum * (M_PI / 180));
 		aux.aux_y++;
 		aux.aux_x = data->player->pos_x + ((aux.aux_dist + \
 		data->player->pixel_x) / 64);
@@ -62,10 +63,10 @@ float	ang_360(t_data *data, float ang)
 			aux.x_dist = 100000000;
 		aux.n_iter++;
 	}
-	return (aux_360(data, &aux, ang));
+	return (aux_360(data, &aux, img_c));
 }
 
-float	aux_270(t_data *data, t_angle_calc *aux, float ang)
+float	aux_270(t_data *data, t_angle_calc *aux, t_img_calc *img_c)
 {
 	aux->y_dist = 0;
 	aux->n_iter = 0;
@@ -74,8 +75,8 @@ float	aux_270(t_data *data, t_angle_calc *aux, float ang)
 	while (found_cub(data, aux->aux_x, aux->aux_y) == -1)
 	{
 		aux->y_dist = ((data->player->pixel_x + (64 * aux->n_iter)) / \
-		cos(ang * (M_PI / 180)));
-		aux->aux_dist = aux->y_dist * sin(ang * (M_PI / 180));
+		cos(img_c->ang_cum * (M_PI / 180)));
+		aux->aux_dist = aux->y_dist * sin(img_c->ang_cum * (M_PI / 180));
 		aux->aux_x--;
 		aux->aux_y = data->player->pos_y + ((aux->aux_dist + \
 		data->player->pixel_y) / 64);
@@ -83,6 +84,7 @@ float	aux_270(t_data *data, t_angle_calc *aux, float ang)
 			aux->y_dist = 100000000;
 		aux->n_iter++;
 	}
+	img_c->ang_cum += 180;
 	if (aux->x_dist > aux->y_dist)
 	{
 		data->texture = WE;
@@ -94,11 +96,11 @@ float	aux_270(t_data *data, t_angle_calc *aux, float ang)
 	return (aux->x_dist);
 }
 
-float	ang_270(t_data *data, float ang)
+float	ang_270(t_data *data, t_img_calc *img_c)
 {
 	t_angle_calc	aux;
 
-	ang = ang - 180;
+	img_c->ang_cum = img_c->ang_cum - 180;
 	aux.x_dist = 0;
 	aux.n_iter = 0;
 	aux.aux_x = data->player->pos_x;
@@ -106,8 +108,8 @@ float	ang_270(t_data *data, float ang)
 	while (found_cub(data, aux.aux_x, aux.aux_y) == -1)
 	{
 		aux.x_dist = (((64 - data->player->pixel_y) + (64 * aux.n_iter)) / \
-		(sin(ang * (M_PI / 180))));
-		aux.aux_dist = aux.x_dist * cos(ang * (M_PI / 180));
+		(sin(img_c->ang_cum * (M_PI / 180))));
+		aux.aux_dist = aux.x_dist * cos(img_c->ang_cum * (M_PI / 180));
 		aux.aux_y++;
 		aux.aux_x = data->player->pos_x - ((aux.aux_dist - \
 		data->player->pixel_x) / 64);
@@ -115,5 +117,5 @@ float	ang_270(t_data *data, float ang)
 			aux.x_dist = 100000000;
 		aux.n_iter++;
 	}
-	return (aux_270(data, &aux, ang));
+	return (aux_270(data, &aux, img_c));
 }

@@ -12,16 +12,16 @@
 
 #include "cube.h"
 
-float	distancia_a_bloque(t_data *data, float ang)
+float	distancia_a_bloque(t_data *data, t_img_calc *img_c)
 {
-	if (ang >= 0 && ang < 90)
-		return (ang_90(data, ang));
-	else if (ang >= 90 && ang < 180)
-		return (ang_180(data, ang));
-	if (ang >= 180 && ang < 270)
-		return (ang_270(data, ang));
-	else if (ang >= 270 && ang < 360)
-		return (ang_360(data, ang));
+	if (img_c->ang_cum >= 0 && img_c->ang_cum < 90)
+		return (ang_90(data, img_c));
+	else if (img_c->ang_cum >= 90 && img_c->ang_cum < 180)
+		return (ang_180(data, img_c));
+	if (img_c->ang_cum >= 180 && img_c->ang_cum < 270)
+		return (ang_270(data, img_c));
+	else if (img_c->ang_cum >= 270 && img_c->ang_cum < 360)
+		return (ang_360(data, img_c));
 	return (0);
 }
 

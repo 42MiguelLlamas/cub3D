@@ -110,6 +110,23 @@ typedef struct s_angle_calc
 	int		aux_y;
 }				t_angle_calc;
 
+typedef struct s_img_calc
+{
+	void		*img;
+	char		*img_data;
+	int			bpp;
+	int			size_line;
+	int			endian;
+	int			line_height;
+	int			tex_x;
+	float		tex_step;
+	float		perp_dist;
+	float		correction_angle;
+	float		ang_cum;
+	float		dist_bloque;
+	int			color;
+}				t_img_calc;
+
 typedef struct s_data
 {
 	char		*mapname;
@@ -127,14 +144,6 @@ typedef struct s_data
 	int			cols;
 	void		*win;
 	void		*mlx_init;
-	void		*img;
-	char		*img_data;
-	int			bpp;
-	int			size_line;
-	int			endian;
-	int			line_height;
-	int			tex_x;
-	float		tex_step;
 }				t_data;
 
 void	init_color(t_color *color, t_ident ident);
@@ -159,15 +168,15 @@ void	ft_exit(int yes, t_data *game);
 void	ft_free(char **map);
 
 int		found_cub(t_data *data, int x_pos, int y_pos);
-float	ang_360(t_data *data, float ang);
-float	ang_270(t_data *data, float ang);
-float	ang_180(t_data *data, float ang);
-float	ang_90(t_data *data, float ang);
+float	ang_360(t_data *data, t_img_calc *img_c);
+float	ang_270(t_data *data, t_img_calc *img_c);
+float	ang_180(t_data *data, t_img_calc *img_c);
+float	ang_90(t_data *data, t_img_calc *img_c);
 
 void	change_vision(t_data *data, int keycode);
 int		ft_move(int keycode, t_data *data);
 void	draw_img(t_data *data);
-float	distancia_a_bloque(t_data *data, float ang);
+float	distancia_a_bloque(t_data *data, t_img_calc *img_c);
 float	angulo_rayo(t_player *player, int x);
 
 void	gameplay(t_data *data);
