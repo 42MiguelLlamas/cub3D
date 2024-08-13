@@ -21,6 +21,29 @@ int	found_cub(t_data *data, int x_pos, int y_pos)
 	return (-1);
 }
 
+
+void	calc_text_0_to_180(t_data *data, t_angle_calc *aux, t_img_calc *img_c, t_ident id)
+{
+	data->texture = id;
+	if (img_c->ang_cum >= 0 && img_c->ang_cum < 90 && id == EA)
+		img_c->tex_x = fmodf(-1.0f *(sin(img_c->ang_cum * (M_PI / 180.0f)) * aux->y_dist) + \
+		(float)data->player->pixel_y + \
+		(float)(data->player->pos_y * 64), 64.0f);
+	if (img_c->ang_cum >= 0 && img_c->ang_cum < 90 && id == NO)
+		img_c->tex_x = fmodf((sin((90 - img_c->ang_cum) * (M_PI / 180.0f)) * aux->x_dist) + \
+		(float)data->player->pixel_x + \
+		(float)(data->player->pos_x * 64), 64.0f);
+	if (img_c->ang_cum >= 90 && img_c->ang_cum < 180 && id == WE)
+		img_c->tex_x = fmodf(-1.0f *(sin(img_c->ang_cum * (M_PI / 180.0f)) * aux->y_dist) + \
+		(float)data->player->pixel_y + \
+		(float)(data->player->pos_y * 64), 64.0f);
+	if (img_c->ang_cum >= 90 && img_c->ang_cum < 180 && id == NO)
+		img_c->tex_x = fmodf((sin((90 - img_c->ang_cum) * (M_PI / 180.0f)) * aux->x_dist) + \
+		(float)data->player->pixel_x + \
+		(float)(data->player->pos_x * 64), 64.0f);
+	printf("Texture: %i, angle: %f, tex_x:%d\n", id, img_c->ang_cum, img_c->tex_x);
+}
+
 float	aux_180(t_data *data, t_angle_calc *aux, t_img_calc *img_c)
 {
 	aux->y_dist = 0;
@@ -40,14 +63,16 @@ float	aux_180(t_data *data, t_angle_calc *aux, t_img_calc *img_c)
 		aux->n_iter++;
 	}
 	img_c->ang_cum +=90;
+	//printf("ángulo %f, x_dist=%.2f, y_dist=%.2f, aux_dist=%.2f, n_iter=%d, aux_x=%d, aux_y=%d\n", img_c->ang_cum,
+           //aux->x_dist, aux->y_dist, aux->aux_dist, aux->n_iter, aux->aux_x, aux->aux_y);
 	if (aux->x_dist > aux->y_dist)
 	{
-		data->texture = WE;
+		calc_text_0_to_180(data, aux, img_c, WE);
 		return (aux->y_dist);
 	}
 	if (aux->x_dist == 100000000)
 		return (-1);
-	data->texture = NO;
+	calc_text_0_to_180(data, aux, img_c, NO);
 	return (aux->x_dist);
 }
 
@@ -75,6 +100,7 @@ float	ang_180(t_data *data, t_img_calc *img_c)
 	return (aux_180(data, &aux, img_c));
 }
 
+
 float	aux_90(t_data *data, t_angle_calc *aux, t_img_calc *img_c)
 {
 	aux->y_dist = 0;
@@ -95,12 +121,12 @@ float	aux_90(t_data *data, t_angle_calc *aux, t_img_calc *img_c)
 	}
 	if (aux->x_dist > aux->y_dist)
 	{
-		data->texture = EA;
+		calc_text_0_to_180(data, aux, img_c, EA);
 		return (aux->y_dist);
 	}
 	if (aux->x_dist == 100000000)
 		return (-1);
-	data->texture = NO;
+	calc_text_0_to_180(data, aux, img_c, NO);
 	return (aux->x_dist);
 }
 
