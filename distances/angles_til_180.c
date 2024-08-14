@@ -28,20 +28,19 @@ void	calc_text_0_to_180(t_data *data, t_angle_calc *aux, t_img_calc *img_c, t_id
 	if (img_c->ang_cum >= 0 && img_c->ang_cum < 90 && id == EA)
 		img_c->tex_x = fmodf(-1.0f *(sin(img_c->ang_cum * (M_PI / 180.0f)) * aux->y_dist) + \
 		(float)data->player->pixel_y + \
-		(float)(data->player->pos_y * 64), 64.0f);
+		(float)(data->player->pos_y * 64), 64.0f) * data->east.width / 64;
 	if (img_c->ang_cum >= 0 && img_c->ang_cum < 90 && id == NO)
 		img_c->tex_x = fmodf((sin((90 - img_c->ang_cum) * (M_PI / 180.0f)) * aux->x_dist) + \
 		(float)data->player->pixel_x + \
-		(float)(data->player->pos_x * 64), 64.0f);
+		(float)(data->player->pos_x * 64), 64.0f) * data->north.width / 64;
 	if (img_c->ang_cum >= 90 && img_c->ang_cum < 180 && id == WE)
 		img_c->tex_x = fmodf(-1.0f *(sin(img_c->ang_cum * (M_PI / 180.0f)) * aux->y_dist) + \
 		(float)data->player->pixel_y + \
-		(float)(data->player->pos_y * 64), 64.0f);
+		(float)(data->player->pos_y * 64), 64.0f) * data->west.width / 64;
 	if (img_c->ang_cum >= 90 && img_c->ang_cum < 180 && id == NO)
 		img_c->tex_x = fmodf((sin((90 - img_c->ang_cum) * (M_PI / 180.0f)) * aux->x_dist) + \
 		(float)data->player->pixel_x + \
-		(float)(data->player->pos_x * 64), 64.0f);
-	printf("Texture: %i, angle: %f, tex_x:%d\n", id, img_c->ang_cum, img_c->tex_x);
+		(float)(data->player->pos_x * 64), 64.0f) * data->north.width / 64;
 }
 
 float	aux_180(t_data *data, t_angle_calc *aux, t_img_calc *img_c)
