@@ -24,7 +24,8 @@ void	create_images(t_data *data)
 	data->east.path, &data->east.width, &data->east.height);
 	data->west.img_ptr = mlx_xpm_file_to_image(data->mlx_init, \
 	data->west.path, &data->west.width, &data->west.height);
-	if (!data->north.img_ptr || !data->south.img_ptr || !data->east.img_ptr || !data->west.img_ptr)
+	if (!data->north.img_ptr || !data->south.img_ptr || \
+	!data->east.img_ptr || !data->west.img_ptr)
 		ft_exit(0, data);
 	data->north.buff = (int *)mlx_get_data_addr(data->north.img_ptr, \
 	&data->north.bpp, &data->north.size_line, &data->north.endian);

@@ -12,6 +12,15 @@
 
 #include "../cube.h"
 
+int	found_cub(t_data *data, int x_pos, int y_pos)
+{
+	if (x_pos < 0 || y_pos < 0 || y_pos >= data->rows || x_pos >= data->cols)
+		return (-2);
+	if (data->map[y_pos][x_pos] == '1')
+		return (1);
+	return (-1);
+}
+
 void	pixel_distances(float *pix_x, float *pix_y, t_data *data, int keycode)
 {
 	if (keycode == 119)

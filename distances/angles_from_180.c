@@ -12,30 +12,30 @@
 
 #include "../cube.h"
 
-void	calc_text_180_to_360(t_data *data, t_angle_calc *aux, t_img_calc *img_c, t_ident id)
+void	calc_text_180_to_360(t_data *data, t_angle_calc *aux, \
+t_img_calc *img_c, t_ident id)
 {
 	data->texture = id;
 	if (img_c->ang_cum >= 180 && img_c->ang_cum < 270 && id == WE)
-		img_c->tex_x = fmodf(-1.0f * (sin(img_c->ang_cum * (M_PI / 180.0f)) * aux->y_dist) + \
-		(float)data->player->pixel_y + \
+		img_c->tex_x = fmodf(-1.0f * (sin(img_c->ang_cum * (M_PI / 180.0f)) * \
+		aux->y_dist) + (float)data->player->pixel_y + \
 		(float)(data->player->pos_y * 64), 64.0f) * data->west.width / 64;
 	if (img_c->ang_cum >= 180 && img_c->ang_cum < 270 && id == SO)
-		img_c->tex_x = fmodf((sin((img_c->ang_cum - 270) * (M_PI / 180.0f)) * aux->x_dist) + \
-		(float)data->player->pixel_x + \
+		img_c->tex_x = fmodf((sin((img_c->ang_cum - 270) * (M_PI / 180.0f)) * \
+		aux->x_dist) + (float)data->player->pixel_x + \
 		(float)(data->player->pos_x * 64), 64.0f) * data->south.width / 64;
 	if (img_c->ang_cum >= 270 && img_c->ang_cum < 360 && id == EA)
-		img_c->tex_x = fmodf(-1.0f * (sin(img_c->ang_cum * (M_PI / 180.0f)) * aux->y_dist) + \
-		(float)data->player->pixel_y + \
+		img_c->tex_x = fmodf(-1.0f * (sin(img_c->ang_cum * (M_PI / 180.0f)) * \
+		aux->y_dist) + (float)data->player->pixel_y + \
 		(float)(data->player->pos_y * 64), 64.0f) * data->east.width / 64;
 	if (img_c->ang_cum >= 270 && img_c->ang_cum < 360 && id == SO)
-		img_c->tex_x = fmodf((sin((img_c->ang_cum - 270) * (M_PI / 180.0f)) * aux->x_dist) + \
-		(float)data->player->pixel_x + \
-		(float)(data->player->pos_x * 64), 64.0f)* data->south.width / 64;
+		img_c->tex_x = fmodf((sin((img_c->ang_cum - 270) * (M_PI / 180.0f)) * \
+		aux->x_dist) + (float)data->player->pixel_x + \
+		(float)(data->player->pos_x * 64), 64.0f) * data->south.width / 64;
 }
 
 float	aux_360(t_data *data, t_angle_calc *aux, t_img_calc *img_c)
 {
-	aux->y_dist = 0;
 	aux->n_iter = 0;
 	aux->aux_x = data->player->pos_x;
 	aux->aux_y = data->player->pos_y;
@@ -52,12 +52,8 @@ float	aux_360(t_data *data, t_angle_calc *aux, t_img_calc *img_c)
 		aux->n_iter++;
 	}
 	img_c->ang_cum += 270;
-	//printf("ángulo %f, x_dist=%.2f, y_dist=%.2f, aux_dist=%.2f, n_iter=%d, aux_x=%d, aux_y=%d\n", img_c->ang_cum,
-           //aux->x_dist, aux->y_dist, aux->aux_dist, aux->n_iter, aux->aux_x, aux->aux_y);
 	if (aux->x_dist > aux->y_dist)
 	{
-		//printf("Distancia Y: %f\n", fabs(sin(img_c->ang_cum *(M_PI / 180.0))));
-		//printf("Pixel inicial: %f\n", fmodf(-1.0f * (sin(img_c->ang_cum * (M_PI / 180.0f)) * aux->y_dist) + (float)data->player->pixel_y + (float)(data->player->pos_y * 64), 64.0f));
 		calc_text_180_to_360(data, aux, img_c, EA);
 		return (aux->y_dist);
 	}
@@ -88,12 +84,12 @@ float	ang_360(t_data *data, t_img_calc *img_c)
 			aux.x_dist = 100000000;
 		aux.n_iter++;
 	}
+	aux.y_dist = 0;
 	return (aux_360(data, &aux, img_c));
 }
 
 float	aux_270(t_data *data, t_angle_calc *aux, t_img_calc *img_c)
 {
-	aux->y_dist = 0;
 	aux->n_iter = 0;
 	aux->aux_x = data->player->pos_x;
 	aux->aux_y = data->player->pos_y;
@@ -110,8 +106,6 @@ float	aux_270(t_data *data, t_angle_calc *aux, t_img_calc *img_c)
 		aux->n_iter++;
 	}
 	img_c->ang_cum += 180;
-	//printf("ángulo %f, x_dist=%.2f, y_dist=%.2f, aux_dist=%.2f, n_iter=%d, aux_x=%d, aux_y=%d\n", img_c->ang_cum,
-           //aux->x_dist, aux->y_dist, aux->aux_dist, aux->n_iter, aux->aux_x, aux->aux_y);
 	if (aux->x_dist > aux->y_dist)
 	{
 		calc_text_180_to_360(data, aux, img_c, WE);
@@ -144,5 +138,6 @@ float	ang_270(t_data *data, t_img_calc *img_c)
 			aux.x_dist = 100000000;
 		aux.n_iter++;
 	}
+	aux.y_dist = 0;
 	return (aux_270(data, &aux, img_c));
 }

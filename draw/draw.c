@@ -12,14 +12,12 @@
 
 #include "../cube.h"
 
-
 void	calculate_points(t_data *data, t_img_calc	*img_c)
 {
 	if (data->texture == NO)
 	{
 		img_c->line_height = (int)(HEIGHT / img_c->perp_dist);
 		img_c->tex_step = 1.0 * data->north.height / img_c->line_height;
-		
 	}
 	if (data->texture == SO)
 	{
@@ -41,16 +39,18 @@ void	calculate_points(t_data *data, t_img_calc	*img_c)
 void	calculate_color(t_data *data, float tex_pos, t_img_calc	*img_c)
 {
 	int	tex_y;
+
 	if (data->texture == NO)
 	{
 		tex_y = (int)tex_pos % data->north.height;
-		img_c->color = data->north.buff[tex_y * data->north.width + img_c->tex_x];
+		img_c->color = data->north.buff[tex_y * data->north.width \
+		+ img_c->tex_x];
 	}
 	if (data->texture == SO)
 	{
 		tex_y = (int)tex_pos % data->south.height;
-		img_c->color = data->south.buff[tex_y * data->south.width + img_c->tex_x];
-		//printf("Tex_y: %i, Tex_x: %d, Text width:%d, Tex Pos: \n", tex_y ,img_c->tex_x,data->south.width );
+		img_c->color = data->south.buff[tex_y * data->south.width \
+		+ img_c->tex_x];
 	}
 	if (data->texture == EA)
 	{
@@ -66,24 +66,23 @@ void	calculate_color(t_data *data, float tex_pos, t_img_calc	*img_c)
 
 void	paint_color(t_img_calc	*img_c, t_color color, int x, int y)
 {
-	int pixel_index;
-	int color_value;
+	int	pixel_index;
+	int	color_value;
 
 	pixel_index = (y * img_c->size_line) + (x * (img_c->bpp / 8));
 	color_value = (color.r * 65536) + (color.g * 256) + color.b;
-	*(int*)(img_c->img_data + pixel_index) = color_value;
+	*(int *)(img_c->img_data + pixel_index) = color_value;
 }
 
 void	draw_vertical_line(t_data *data, int x, t_img_calc	*img_c)
 {
-	int	y;
-	int	a;
 	float	tex_pos;
+	int		y;
+	int		a;
 
 	tex_pos = 0;
 	a = 0;
 	calculate_points(data, img_c);
-	//printf("Col: %i, Line height:%i, Tex:%d, Step:%f, Texture: %i\n", x, img_c->line_height, img_c->tex_x, img_c->tex_step, data->texture);
 	y = (HEIGHT - img_c->line_height) / 2;
 	if (y < 0)
 		y = 0;
@@ -93,7 +92,8 @@ void	draw_vertical_line(t_data *data, int x, t_img_calc	*img_c)
 	{
 		calculate_color(data, tex_pos, img_c);
 		tex_pos += img_c->tex_step;
-		*(int*)(img_c->img_data + (y * img_c->size_line + x * (img_c->bpp / 8))) = img_c->color;
+		*(int*)(img_c->img_data + (y * img_c->size_line + x * \
+		(img_c->bpp / 8))) = img_c->color;
 		y++;
 	}
 	while (y < HEIGHT && y > (HEIGHT / 2))
@@ -103,7 +103,7 @@ void	draw_vertical_line(t_data *data, int x, t_img_calc	*img_c)
 void	draw_img(t_data *data)
 {
 	t_img_calc	img_calc;
-	int		x;
+	int			x;
 
 	img_calc.img = mlx_new_image(data->mlx_init, WIDTH, HEIGHT);
 	if (!img_calc.img)
@@ -119,9 +119,8 @@ void	draw_img(t_data *data)
 		img_calc.ang_cum = angulo_rayo(data->player, x);
 		img_calc.dist_bloque = distancia_a_bloque(data, &img_calc) / 64;
 		img_calc.correction_angle = data->player->angle_v - img_calc.ang_cum;
-		img_calc.perp_dist = img_calc.dist_bloque * (float)cos(img_calc.correction_angle * (M_PI / 180.0));
-		//printf("Column x=%d: ang_cum=%f, dist_bloque=%f, correction_angle=%f, perp_dist=%f, Tex_x: %f\n",
-		//		x, img_calc.ang_cum, img_calc.dist_bloque, img_calc.correction_angle, img_calc.perp_dist);
+		img_calc.perp_dist = img_calc.dist_bloque * \
+		(float)cos(img_calc.correction_angle * (M_PI / 180.0));
 		draw_vertical_line(data, x, &img_calc);
 		x++;
 	}
