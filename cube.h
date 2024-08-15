@@ -180,5 +180,8 @@ float	distancia_a_bloque(t_data *data, t_img_calc *img_c);
 float	angulo_rayo(t_player *player, int x);
 
 void	gameplay(t_data *data);
+void	paint_color(t_img_calc	*img_c, t_color color, int x, int y);
+void	calculate_color(t_data *data, float tex_pos, t_img_calc	*img_c);
+void	calculate_points(t_data *data, t_img_calc	*img_c);
 
 #endif
