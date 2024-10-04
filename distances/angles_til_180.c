@@ -41,7 +41,7 @@ float	aux_180(t_data *data, t_angle_calc *aux, t_img_calc *img_c)
 	aux->aux_y = data->player->pos_y;
 	while (found_cub(data, aux->aux_x, aux->aux_y) == -1)
 	{
-		aux->y_dist = (data->player->pixel_x + (64 * aux->n_iter) / \
+		aux->y_dist = ((data->player->pixel_x + (64 * aux->n_iter)) / \
 		(sin(img_c->ang_cum * (M_PI / 180))));
 		aux->aux_dist = aux->y_dist * cos(img_c->ang_cum * (M_PI / 180));
 		aux->aux_x--;

@@ -12,32 +12,6 @@
 
 #include "cube.h"
 
-void	print_amap(char **map)
-{
-	char	c;
-	int		i;
-	int		j;
-
-	i = 0;
-	while (map[i] != NULL)
-	{
-		j = 0;
-		c = map[i][j];
-		while (c != '\0')
-		{
-			if (c == ' ')
-				printf("b");
-			else
-				printf("%c", c);
-			j++;
-			c = map[i][j];
-		}
-		printf("\n");
-		i++;
-	}
-	printf("\n");
-}
-
 int	main(int argc, char **argv)
 {
 	t_data	game;

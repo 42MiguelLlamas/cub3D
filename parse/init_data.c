@@ -42,6 +42,8 @@ void	init_mapcheck(t_mapcheck *mc)
 void	init_player(t_data *game)
 {
 	game->player = malloc(sizeof(t_player));
+	if (!game->player)
+		ft_exit(1, &game);
 	game->player->angle_v = 0;
 	game->player->pixel_x = 32;
 	game->player->pixel_y = 32;
